@@ -75,3 +75,8 @@ parts corresponding to communities.
 ! for overlapping communities !
 
 #### 3.7 Agglomerative hierarchical clustering
+
+
+nfl coaching staff 2018-2023
+straßennetz in bayern
+players and coaches bundesliga
