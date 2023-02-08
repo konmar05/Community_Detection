@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import networkx as nx
+import getdata
 from networkx.algorithms.community.centrality import girvan_newman
 
 def main():
@@ -25,4 +26,5 @@ def main():
 
 # Press the green button to run the script.
 if __name__ == '__main__':
-    main()
+    # main()
+    getdata.getData()
