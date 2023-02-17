@@ -1,0 +1,19 @@
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+
+ FC Bayern München. He played 
+ TSV Lichtenwald from 1993-1994, 
+ TSV Schornbach from 1994-1998, 
+ VfB Stuttgart from 1998-2015, 
+ VfB Stuttgart II from 1998-2015, 
+ FC Bayern München from 2015-2020, 
+ Hamburger SV from 2020-2021 and has played 
+ FC Bayern München since 2021.
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+https://www.bundesliga.com/en/bundesliga/player/sven-ulreich
+['Sven Ulreich was born on 3\xa0August\xa01988 in Schorndorf and plays ', ' FC Bayern München. He played ', ' TSV Lichtenwald from 1993-1994, ', ' TSV Schornbach from 1994-1998, ', ' VfB Stuttgart from 1998-2015, ', ' VfB Stuttgart II from 1998-2015, ', ' FC Bayern München from 2015-2020, ', ' Hamburger SV from 2020-2021 and has played ', ' FC Bayern München since 2021.']

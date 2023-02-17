@@ -77,6 +77,7 @@ parts corresponding to communities.
 #### 3.7 Agglomerative hierarchical clustering
 
 
-nfl coaching staff 2018-2023
-straßennetz in bayern
-players and coaches bundesliga
+players bundesliga
+
+nodes = player
+edges = playing in same team, according to the year
