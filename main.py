@@ -65,6 +65,7 @@ def main():
 
 # Press the green button to run the script.
 if __name__ == '__main__':
-    main()
+    # main()
     # db.getData()
-    # graph.drawGraph()
+    # graph.drawgraph()
+    graph.createnodes()
