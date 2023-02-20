@@ -1,7 +1,9 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import colors as col
 
 from networkx.algorithms.community.centrality import girvan_newman
+from networkx.algorithms.community.label_propagation import asyn_lpa_communities
 
 
 def drawgraph():
@@ -69,7 +71,7 @@ def createnodes():
     bundesliga.add_node(8, name='Johannes Schenk', club='FC Bayern München')
     bundesliga.add_node(9, name='Kelvin Yeboah', club='FC Augsburg',y2017='AC Gozzano',y2018='WSG Wattens',y2019='WSG Swarovski Tirol',y2020='WSG Swarovski Tirol',y2021='SK Puntigamer Sturm Graz',y2022='Genua CFC 1893')
     bundesliga.add_node(10, name='Konrad Laimer', club='RB Leipzig',y2013='FC Red Bull Salzburg',y2014='FC Red Bull Salzburg',y2015='FC Red Bull Salzburg',y2016='FC Red Bull Salzburg',y2017='RB Leipzig',y2018='RB Leipzig',y2019='RB Leipzig',y2020='RB Leipzig',y2021='RB Leipzig',y2022='RB Leipzig')
-    bundesliga.add_node(11, name='Filip Uremović', club='Hertha Berlin',y2013 = 'HNK Cibalia Vinkovci',y2014 = 'HNK Cibalia Vinkovci',y2015 = 'HNK Cibalia Vinkovci',y2016 = 'GNK Dinamo Zagreb',y2017 = 'GNK Dinamo Zagreb',y2018 = 'FC Rubin Kazan',y2019 = 'FC Rubin Kazan',y2020 = 'FC Rubin Kazan',y2021 = 'FC Rubin Kazan',y2022 = 'Sheffield United')
+    bundesliga.add_node(11, name='Filip Uremović', club='Hertha BSC Berlin',y2013 = 'HNK Cibalia Vinkovci',y2014 = 'HNK Cibalia Vinkovci',y2015 = 'HNK Cibalia Vinkovci',y2016 = 'GNK Dinamo Zagreb',y2017 = 'GNK Dinamo Zagreb',y2018 = 'FC Rubin Kazan',y2019 = 'FC Rubin Kazan',y2020 = 'FC Rubin Kazan',y2021 = 'FC Rubin Kazan',y2022 = 'Sheffield United')
     bundesliga.add_node(12, name='Patrick Wimmer', club='VfL Wolfsburg',y2013 = 'Sportklub Sitzenberg-Reidling',y2014 = 'Sportklub Sitzenberg-Reidling',y2015 = 'FC Waidhofen',y2016 = 'FC Waidhofen',y2017 = 'SV Gaflenz',y2018 = 'SV Gaflenz',y2019 = 'FK Austria Wien',y2020 = 'FK Austria Wien',y2021 = 'DSC Arminia Bielefeld',y2022 = 'VfL Wolfsburg')
     bundesliga.add_node(13, name='Lars Stindl', club='Borussia Mönchengladbach',y2013='Hannover 96',y2014='Hannover 96',y2015='Borussia Mönchengladbach',y2016='Borussia Mönchengladbach',y2017='Borussia Mönchengladbach',y2018='Borussia Mönchengladbach',y2019='Borussia Mönchengladbach',y2020='Borussia Mönchengladbach',y2021='Borussia Mönchengladbach',y2022='Borussia Mönchengladbach')
     bundesliga.add_node(14, name='Ozan Kabak', club='TSG 1899 Hoffenheim',y2013 = 'Galatasaray SK Istanbul',y2014 = 'Galatasaray SK Istanbul',y2015 = 'Galatasaray SK Istanbul',y2016 = 'Galatasaray SK Istanbul',y2017 = 'Galatasaray SK Istanbul',y2018 = 'Galatasaray SK Istanbul',y2019 = 'VfB Stuttgart',y2020 = 'FC Schalke 04',y2021 = 'Liverpool FC',y2022 = 'TSG Hoffenheim')
@@ -77,284 +79,145 @@ def createnodes():
     bundesliga.add_node(16, name='Sadio Mané', club='FC Bayern München', y2013='FC Red Bull Salzburg', y2014='Southampton FC', y2015='Southampton FC', y2016='Liverpool FC', y2017='Liverpool FC', y2018='Liverpool FC', y2019='Liverpool FC', y2020='Liverpool FC', y2021='Liverpool FC', y2022='FC Bayern München')
     bundesliga.add_node(17, name='Maximilian Philipp', club='SV Werder Bremen', y2013='SC Freiburg', y2014='SC Freiburg', y2015='SC Freiburg', y2016='SC Freiburg', y2017='Borussia Dortmund', y2018='Borussia Dortmund', y2019='Borussia Dortmund', y2020='Dinamo Moskau', y2021='VfL Wolfsburg', y2022='VfL Wolfsburg')
     bundesliga.add_node(18, name='Elias Bakatukanda ', club='1. FC Köln', y2013='1. FC Köln', y2014='1. FC Köln', y2015='1. FC Köln', y2016='1. FC Köln', y2017='1. FC Köln', y2018='1. FC Köln', y2019='1. FC Köln', y2020='1. FC Köln', y2021='1. FC Köln', y2022='1. FC Köln')
-    bundesliga.add_node(19, name='Matthias Ginter', club='SC Freiburg', y2013='SC Freiburg', y2014='Borussia Dortmund', y2015='Borussia Dortmund', y2016='Borussia Dortmund', y2017='Borussia Mönchengladbach', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach'
-                        'SC Freiburg 2005-2014, ', 'Borussia Dortmund 2014-2017, ',
-                        " Borussia M'gladbach 2017-2022 and has played ", 'SC Freiburg since 2022'
-    bundesliga.add_node(20, name='Amadou Haidara', club='RB Leipzig', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'JMG Academy Bamako 2015-2016, ',
-                        'FC Liefering 2016-2017, ', 'FC Red Bull Salzburg 2017-2018 and has played ',
-                        'RB Leipzig since 2019'
-    bundesliga.add_node(21, name='Malick Sanogo', club='1. FC Union Berlin', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'FC Energie Cottbus 2018-2019 and has played ', '1. FC Union Berlin since 2019'
+    bundesliga.add_node(19, name='Matthias Ginter', club='SC Freiburg', y2013='SC Freiburg', y2014='Borussia Dortmund', y2015='Borussia Dortmund', y2016='Borussia Dortmund', y2017='Borussia Mönchengladbach', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(20, name='Amadou Haidara', club='RB Leipzig', y2015='JMG Academy Bamako', y2016='FC Liefering', y2017='FC Red Bull Salzburg', y2018='FC Red Bull Salzburg', y2019='RB Leipzig', y2020='RB Leipzig', y2021='RB Leipzig', y2022='RB Leipzig')
+    bundesliga.add_node(21, name='Malick Sanogo', club='1. FC Union Berlin', y2018='FC Energie Cottbus', y2019='1. FC Union Berlin', y2020='1. FC Union Berlin', y2021='1. FC Union Berlin', y2022='1. FC Union Berlin')
     bundesliga.add_node(22, name='Josip Stanišić', club='FC Bayern München')
-    bundesliga.add_node(23, name='Yannick Gerhardt', club='VfL Wolfsburg', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'SC Kreuzau 05 1999-2003, ',
-                        '1. FC Köln 2003-2016 and has played ', 'VfL Wolfsburg since 2016'
-    bundesliga.add_node(24, name='Irvin Cardona', club='FC Augsburg', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'US Le Pontet 2003-2012, ',
-                        'AS Monaco FC 2012-2017, ', 'Cercle Brügge KSV 2017-2018, ', 'AS Monaco FC 2019-2019, ',
-                        'Stade Brestois 2019-2023 and has played ', 'FC Augsburg since 2023'
-    bundesliga.add_node(25, name='Jessic Ngankam', club='Hertha Berlin', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'Reinickendorfer Füchse 2005-2006, ',
-                        'Hertha BSC 2006-2021, ', 'SpVgg Greuther Fürth 2021-2022 and has played ',
-                        'Hertha BSC since 2022'
-    bundesliga.add_node(26, name='Benjamin Uphoff', club='Sport-Club Freiburg', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'SV Wacker Burghausen 1998-2011, ',
-                        '1. FC Nürnberg 2011-2014, ', 'VfB Stuttgart II 2014-2015, ', '1. FC Nürnberg 2015-2015, ',
-                        'VfB Stuttgart 2015-2017, ', 'VfB Stuttgart II 2015-2016, ', 'Karlsruher SC 2017-2020, ',
-                        'SC Freiburg since 2020 and has played ', 'SC Freiburg II since 2020'
-    bundesliga.add_node(27, name='Dani Olmo', club='RB Leipzig', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'Espanyol Barcelona 2006-2007, ',
-                        'FC Barcelona 2007-2014, ', 'GNK Dinamo Zagreb 2014-2020 and has played ',
-                        'RB Leipzig since 2020'
-    bundesliga.add_node(28, name='Grischa Prömel', club='TSG 1899 Hoffenheim', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'TSV RSK Esslingen 2008-2009, ',
-                        'SV Stuttgarter Kickers 2009-2013, ', 'TSG Hoffenheim 2013-2015, ', 'Karlsruher SC 2015-2017, ',
-                        '1. FC Union Berlin 2017-2022 and has played ', 'TSG Hoffenheim since 2022'
-    bundesliga.add_node(29, name='Mark Uth', club='1. FC Köln', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'TuS Langel 1996-2004, ', '1. FC Köln 2004-2007, ',
-                        'SCB Viktoria Köln 2007-2009, ', '1. FC Köln 2009-2012, ', 'SC Heerenveen 2012-2013, ',
-                        'Heracles Almelo 2013-2014, ', 'SC Heerenveen 2014-2015, ', 'TSG Hoffenheim 2015-2018, ',
-                        'FC Schalke 04 2018-2020, ', '1. FC Köln 2020-2020, ',
-                        'FC Schalke 04 2020-2021 and has played ', '1. FC Köln since 2021'
-    bundesliga.add_node(30, name='Exequiel Palacios', club='Bayer 04 Leverkusen',y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'CA River Plate 2008-2019 and has played ', 'Bayer 04 Leverkusen since 2020'
-    bundesliga.add_node(31, name='Luca Pfeiffer', club='VfB Stuttgart', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)'TSG Hoffenheim 2012-2013, ',
-                        'FSV Hollenbach 2013-2016, ', 'SV Stuttgarter Kickers 2016-2018, ', 'VfL Osnabrück 2018-2019, ',
-                        'FC Würzburger Kickers 2019-2020, ', 'FC Midtjylland 2020-2021, ',
-                        'SV Darmstadt 98 2021-2022, ', 'FC Midtjylland 2022-2022 and has played ',
-                        'VfB Stuttgart since 2022'
-    bundesliga.add_node(32, name='Silvan Widmer', club='1. FSV Mainz 05', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'SV Würenlos 2006-2007, ',
-                        'FC Baden 2007-2008, ', 'Team Aargau 2008-2011, ', 'FC Aarau 2011-2013, ',
-                        'Udinese Calcio 2013-2018, ', 'FC Basel 2018-2021 and has played ', '1. FSV Mainz 05 since 2021'
-    bundesliga.add_node(33, name='Moritz Jenz', club='FC Schalke 04', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'Tennis Borussia Berlin 2014-2015, ',
-                        'Fulham FC 2015-2020, ', 'Lausanne-Sports 2020-2021, ', 'FC Lorient 2021-2022, ',
-                        'Celtic Glasgow FC 2022-2023 and has played ', 'FC Schalke 04 since 2023'
-    bundesliga.add_node(34, name='Marcus Thuram', club='Borussia Mönchengladbach', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'Olympique Neuilly 2007-2010, ',
-                        'AC de Boulogne-Billancourt 2010-2012, ', 'FC Sochaux 2012-2017, ',
-                        'En Avant de Guingamp 2017-2019 and has played ', " Borussia M'gladbach since 2019."
-    35
-    bundesliga.add_node(35, name='Florian Müller', club='VfB Stuttgart', 'FV Lebach 2001-2010, ',
-                        '1. FC Saarbrücken 2010-2013, ', '1. FSV Mainz 05 2013-2020, ', '1.FSV Mainz 05 II 2013-2017, ',
-                        'SC Freiburg 2020-2021 and has played ', 'VfB Stuttgart since 2021'
-    bundesliga.add_node(36, name='Kevin Vogt', club='TSG 1899 Hoffenheim', 'VfB Langendreerholz 1995-2001, ',
-                        'Werner SV Bochum 2001-2004, ', 'VfL Bochum 1848 2004-2012, ', 'FC Augsburg 2012-2014, ',
-                        '1. FC Köln 2014-2016, ', 'TSG Hoffenheim 2016-2020, ',
-                        'SV Werder Bremen 2020-2020 and has played ', 'TSG Hoffenheim since 2020'
-    bundesliga.add_node(37, name='Iago', club='FC Augsburg', 'SC Internacional 2010-2019 and has played ',
-                        'FC Augsburg since 2019'
-    bundesliga.add_node(38, name='Takuma Asano', club='VfL Bochum', 'Yokkaichi Chuo Technical HS 2010-2012, ',
-                        'Sanfrecce Hiroshima 2013-2016, ', 'Arsenal FC 2016-2016, ', 'VfB Stuttgart 2016-2018, ',
-                        'Hannover 96 2018-2019, ', 'Arsenal FC 2019-2019, ',
-                        'FK Partizan Belgrad 2019-2021 and has played ', 'VfL Bochum 1848 since 2021'
-    bundesliga.add_node(39, name='Nico Elvedi', club='Borussia Mönchengladbach', 'FC Greifensee 2005-2006, ',
-                        'FC Zürich 2006-2015 and has played ', " Borussia M'gladbach since 2015."
-    bundesliga.add_node(40, name='Lucas Hernández', club='FC Bayern München', 'CF Rayo Majadahonda 2005-2007, ',
-                        'Atletico Madrid 2007-2019 and has played ', 'FC Bayern München since 2019'
-    bundesliga.add_node(41, name='Luca Waldschmidt', club='VfL Wolfsburg', 'SSV Oranien Frohnhausen 2001-2007, ',
-                        'SSC Juno Burg 2007-2009, ', 'TSG Wieseck 2009-2010, ', 'Eintracht Frankfurt 2010-2016, ',
-                        'Hamburger SV 2016-2018, ', 'SC Freiburg 2018-2020, ',
-                        'SL Benfica Lissabon 2020-2021 and has played ', 'VfL Wolfsburg since 2021'
-    bundesliga.add_node(42, name='Marius Wolf', club='Borussia Dortmund', 'VfB Einberg 1998-2004, ',
-                        'JFG Rödental 2004-2006, ', 'Deutsch-Tschechische FS 2006-2007, ', '1. FC Nürnberg 2007-2012, ',
-                        'TSV 1860 München 2012-2016, ', 'Hannover 96 2016-2017, ', 'Eintracht Frankfurt 2017-2018, ',
-                        'Borussia Dortmund 2018-2019, ', 'Hertha BSC 2019-2020, ', 'Borussia Dortmund 2020-2020, ',
-                        '1. FC Köln 2020-2021 and has played ', 'Borussia Dortmund since 2021'
-    bundesliga.add_node(43, name='Konstantinos Mavropanos', club='VfB Stuttgart', 'Apollon Smyrnis FC 2008-2016, ',
-                        'PAS Giannina FC 2016-2018, ', 'Arsenal FC 2018-2020, ',
-                        '1. FC Nürnberg 2020-2020 and has played ', 'VfB Stuttgart since 2020'
-    bundesliga.add_node(44, name='Joshua Kimmich', club='FC Bayern München', 'VfB Bösingen 2006-2007, ',
-                        'VfB Stuttgart 2007-2013, ', 'RB Leipzig 2013-2015 and has played ',
-                        'FC Bayern München since 2015'
-    bundesliga.add_node(45, name='Christoph Baumgartner', club='TSG 1899 Hoffenheim', 'SV Horn 2005-2012, ',
-                        'AKA St. Pölten 2012-2017 and has played ', 'TSG Hoffenheim since 2017'
-    bundesliga.add_node(46, name='Lee Buchanan', club='SV Werder Bremen', 'Derby County FC 2010-2022 and has played ',
-                        'SV Werder Bremen since 2022'
-    bundesliga.add_node(47, name='Michael Gregoritsch', club='Sport-Club Freiburg', 'Grazer AK 2000-2008, ',
-                        'Kapfenberger SV 1919 2008-2012, ', 'TSG Hoffenheim 2012-2013, ', 'FC St. Pauli 2013-2014, ',
-                        'VfL Bochum 1848 2014-2015, ', 'Hamburger SV 2015-2017, ', 'FC Augsburg 2017-2019, ',
-                        'FC Schalke 04 2020-2020, ', 'FC Augsburg 2020-2022 and has played ', 'SC Freiburg since 2022'
-    bundesliga.add_node(48, name='Benjamin Leneis', club='FC Augsburg', '1. FC Nürnberg 2014-2015, ',
-                        'FC Augsburg 2015-2021, ', '1. FC Magdeburg 2021-2022 and has played ', 'FC Augsburg since 2022'
-    49
-    bundesliga.add_node(49, name='Dženan Pejčinović', club='VfL Wolfsburg', 'FC Bayern München 2016-2017, ',
-                        'FC Augsburg 2017-2022 and has played ', 'VfL Wolfsburg since 2022'
-    bundesliga.add_node(50, name='Niklas Lomb', club='Bayer 04 Leverkusen', 'SC West Köln 2007-2008, ',
-                        'Bayer 04 Leverkusen 2008-2015, ', 'Hallescher FC 2015-2015, ',
-                        'SC Preußen Münster 2015-2016, ', 'Bayer 04 Leverkusen 2016-2018, ',
-                        'SV Sandhausen 2018-2019 and has played ', 'Bayer 04 Leverkusen since 2019'
-    bundesliga.add_node(51, name='Muhammed Damar', club='TSG 1899 Hoffenheim', '1.FC Schöneberg 2009-2013, ',
-                        'FC Hertha 03 Zehlendorf 2013-2015, ', 'Hertha BSC 2015-2019, ',
-                        'FC Hertha 03 Zehlendorf 2019-2020, ', 'Eintracht Frankfurt 2020-2022 and has played ',
-                        'TSG Hoffenheim since 2022'
-    bundesliga.add_node(52, name='John Anthony Brooks', club='TSG 1899 Hoffenheim', 'SV Blau Weiss Berlin 1998-2000, ',
-                        'Lichtenrader BC 2000-2003, ', 'FC Hertha 03 Zehlendorf 2003-2007, ', 'Hertha BSC 2007-2017, ',
-                        'VfL Wolfsburg 2017-2022, ', 'SL Benfica Lissabon 2022-2023 and has played ',
-                        'TSG Hoffenheim since 2023'
-    bundesliga.add_node(53, name='Patrik Schick', club='Bayer 04 Leverkusen', 'TJ Viktoria Vestec 2002-2003, ',
-                        'FS Optimum Sport Dobrejovice 2003-2007, ', 'AC Sparta Prag 2007-2015, ',
-                        'Bohemians Prag 2015-2016, ', 'AC Sparta Prag 2016-2016, ', 'Sampdoria Genua 2016-2017, ',
-                        'AS Rom 2017-2019, ', 'RB Leipzig 2019-2020, ', 'AS Rom 2020-2020 and has played ',
-                        'Bayer 04 Leverkusen since 2020'
-    bundesliga.add_node(54, name='Christopher Lenz', club='Eintracht Frankfurt', 'FC Stern Marienfelde 1998-1999, ',
-                        'Hertha BSC 1999-2008, ', 'Tennis Borussia Berlin 2008-2009, ', 'Hertha BSC 2009-2012, ',
-                        " Borussia M'gladbach 2012-2016, ", '1. FC Union Berlin 2016-2016, ',
-                        'Holstein Kiel 2017-2018, ', '1. FC Union Berlin 2018-2021 and has played ',
-                        'Eintracht Frankfurt since 2021'
-    bundesliga.add_node(55, name='Sebastian Polter', club='FC Schalke 04', 'Heidmühler FC 1994-2003, ',
-                        'SV Wilhelmshaven 2003-2004, ', 'SV Werder Bremen 2004-2005, ', 'SV Wilhelmshaven 2005-2006, ',
-                        'Eintracht Braunschweig 2006-2007, ', 'VfL Wolfsburg 2007-2012, ', '1. FC Nürnberg 2012-2013, ',
-                        '1. FSV Mainz 05 2013-2014, ', '1. FC Union Berlin 2014-2015, ',
-                        'Queens Park Rangers FC 2015-2017, ', '1. FC Union Berlin 2017-2020, ',
-                        'Fortuna Sittard 2020-2021, ', 'VfL Bochum 1848 2021-2022 and has played ',
-                        'FC Schalke 04 since 2022'
-    bundesliga.add_node(56, name='Jakob Busk', club='1. FC Union Berlin', 'FC Kopenhagen 2008-2014, ',
-                        'AC Horsens 2014-2014, ', 'FC Kopenhagen 2015-2015, ', 'Sandefjord Fotball 2015-2015, ',
-                        'FC Kopenhagen 2016-2016 and has played ', '1. FC Union Berlin since 2016'
-    bundesliga.add_node(57, name='Conor Noß', club='Borussia Mönchengladbach', 'SG Kaarst 2007-2008, ',
-                        'Sportfreunde Vorst 2008-2009 and has played ', " Borussia M'gladbach since 2009."
-    bundesliga.add_node(58, name='Lukáš Ambros ', club='VfL Wolfsburg', '1. FC Slovacko 2015-2017, ',
-                        'SK Slavia Prag 2017-2020 and has played ', 'VfL Wolfsburg since 2020'
-    bundesliga.add_node(59, name='Mërgim Berisha  ', club='FC Augsburg', 'FC Bischofswiesen 2007-2008, ',
-                        'Red Bull Juniors Salzburg 2008-2015, ', 'FC Liefering 2016-2016, ',
-                        'FC Red Bull Salzburg 2017-2017, ', 'LASK Linz 2017-2018, ', '1. FC Magdeburg 2018-2018, ',
-                        'FC Red Bull Salzburg 2019-2019, ', 'SCR Altach 2019-2020, ',
-                        'FC Red Bull Salzburg 2020-2021, ', 'Fenerbahce SK Istanbul 2021-2022 and has played ',
-                        'FC Augsburg since 2022'
-    bundesliga.add_node(60, name='Erhan Mašović nd ', club='VfL Bochum', 'FK Cukaricki 2013-2017, ',
-                        'Club Brügge KV 2017-2018, ', 'FK AS Trencin 2018-2019, ', 'Club Brügge KV 2019-2019, ',
-                        'AC Horsens 2019-2020, ', 'Club Brügge KV 2020-2020 and has played ',
-                        'VfL Bochum 1848 since 2020'
-    bundesliga.add_node(61, name='Tim Skarke nd ', club='FC Schalke 04', 'TSG Nattheim 2007-2008, ',
-                        '1. FC Heidenheim 1846 2008-2019, ', 'SV Darmstadt 98 2019-2022, ',
-                        '1. FC Union Berlin 2022-2023 and has played ', 'FC Schalke 04 since 2023'
-    bundesliga.add_node(62, name='Philipp Förster ', club='VfL Bochum', 'Karlsruher SC 2009-2010, ',
-                        'VfB Stuttgart 2010-2014, ', 'SV Waldhof Mannheim 2014-2017, ', '1. FC Nürnberg 2017-2017, ',
-                        'SV Sandhausen 2017-2019, ', 'VfB Stuttgart 2019-2022 and has played ',
-                        'VfL Bochum 1848 since 2022'
-    bundesliga.add_node(63, name='Jonas Hofmann ', club='Borussia Mönchengladbach', 'FC Rot 1998-2004, ',
-                        'TSG Hoffenheim 2004-2011, ', 'Borussia Dortmund 2011-2014, ',
-                        'Borussia Dortmund II 2011-2014, ', '1. FSV Mainz 05 2014-2015, ',
-                        'Borussia Dortmund 2015-2015 and has played ', " Borussia M'gladbach since 2016."
-    bundesliga.add_node(64, name='Ko Itakura', club='Borussia Mönchengladbach', 'Kawasaki Frontale 2006-2018, ',
-                        'Vegalta Sendai 2018-2018, ', 'Kawasaki Frontale 2019-2019, ', 'FC Groningen 2019-2020, ',
-                        'Manchester City FC 2020-2020, ', 'FC Groningen 2020-2021, ', 'Manchester City FC 2021-2021, ',
-                        'FC Schalke 04 2021-2022 and has played ', " Borussia M'gladbach since 2022."
-    bundesliga.add_node(65, name='Daniel Klein', club='FC Augsburg', 'FC Astoria Walldorf 2013-2014, ',
-                        'TSG Hoffenheim 2014-2021, ', '1899 Hoffenheim U 19 2018-2021 and has played ',
-                        'FC Augsburg since 2021'
-    bundesliga.add_node(66, name='Frederik Rønnow', club='1. FC Union Berlin', 'Stensballe IK 2007-2008, ',
-                        'AC Horsens 2008-2013, ', 'Esbjerg fB 2013-2014, ', 'AC Horsens 2014-2015, ',
-                        'Bröndby IF 2015-2018, ', 'Eintracht Frankfurt 2018-2020, ', 'FC Schalke 04 2020-2021, ',
-                        'Eintracht Frankfurt 2021-2021 and has played ', '1. FC Union Berlin since 2021'
-    bundesliga.add_node(67, name='Chidera Ejuke', club='Hertha Berlin', 'Gombe United FC 2016-2017, ',
-                        'Valerenga IF Oslo 2017-2019, ', 'SC Heerenveen 2019-2020, ',
-                        'PFC CSKA Moskau 2020-2022 and has played ', 'Hertha BSC since 2022'
-    bundesliga.add_node(68, name='Sven Michel', club='1. FC Union Berlin', 'SV Fortuna Freudenberg 2002-2003, ',
-                        'Borussia Dortmund 2003-2004, ', 'SuS Niederschelden 2004-2010, ',
-                        'Sportfreunde Siegen 2010-2012, ', " Borussia M'gladbach 2013-2014, ",
-                        'FC Energie Cottbus 2014-2016, ', 'SC Paderborn 07 2016-2022 and has played ',
-                        '1. FC Union Berlin since 2022'
-    bundesliga.add_node(69, name='Alassane Pléa', club='Borussia Mönchengladbach', 'U.S. Ascq 2002-2008, ',
-                        'ES Wasquehal 2008-2009, ', 'Olympique Lyonnais 2009-2014, ', 'AJ Auxerre 2014-2014, ',
-                        'Olympique Lyonnais 2014-2014, ', 'OGC Nice 2014-2018 and has played ',
-                        " Borussia M'gladbach since 2018."
-    bundesliga.add_node(70, name='Waldemar Anton',
-                        club=club = 'VfB Stuttgart', 'Mühlenberger SV 2003-2006, ', 'Hannover 96 2006-2020 and has played ', 'VfB Stuttgart since 2020'
-    bundesliga.add_node(71, name='Angeliño', club='TSG 1899 Hoffenheim', 'Deportivo La Coruna 2007-2013, ',
-                        'Manchester City FC 2013-2015, ', 'New York City FC 2015-2015, ',
-                        'Manchester City FC 2015-2016, ', 'Girona FC 2017-2017, ', 'RCD Mallorca 2017-2017, ',
-                        'NAC Breda 2017-2018, ', 'PSV Eindhoven 2018-2019, ', 'Manchester City FC 2019-2020, ',
-                        'RB Leipzig 2020-2022 and has played ', 'TSG Hoffenheim since 2022'
-    bundesliga.add_node(72, name='Niclas Füllkrug', club='SV Werder Bremen', 'TuS Ricklingen 1997-2005, ',
-                        'SF Ricklingen 2005-2006, ', 'SV Werder Bremen 2006-2013, ', 'Werder Bremen II 2006-2013, ',
-                        'SpVgg Greuther Fürth 2013-2014, ', '1. FC Nürnberg 2014-2016, ',
-                        'Hannover 96 2016-2019 and has played ', 'SV Werder Bremen since 2019'
-    bundesliga.add_node(73, name='Antonis Aidonis', club='VfB Stuttgart', 'TSV Mannheim-Neckarau 2011-2012, ',
-                        'TSG Hoffenheim 2012-2018, ', 'VfB Stuttgart 2018-2021, ',
-                        'SG Dynamo Dresden 2021-2022 and has played ', 'VfB Stuttgart since 2022'
-    bundesliga.add_node(74, name='Adam Hložek', club='Bayer 04 Leverkusen', 'FC Ivancice 2008-2012, ',
-                        'FC Zbrojovka Brno 2012-2013, ', 'FC Ivancice 2013-2014, ',
-                        'AC Sparta Prag 2014-2022 and has played ', 'Bayer 04 Leverkusen since 2022'
-    bundesliga.add_node(75, name='Jonas Wind', club='VfL Wolfsburg', 'Avedöre Idraets', 'ening 2007-2010, ',
-                        'Rosenhöj Boldklub 2010-2012, ', 'FC Kopenhagen 2012-2022 and has played ',
-                        'VfL Wolfsburg since 2022'
-    bundesliga.add_node(76, name='Jonas Hector', club='1. FC Köln', 'SV Auersmacher 1998-2010 and has played ',
-                        '1. FC Köln since 2010'
-    bundesliga.add_node(77, name='Tjark Ernst', club='Hertha Berlin', 'TSG Niederdorfelden 2007-2008, ',
-                        'DJK Arminia Bochum 2008-2011, ', 'VfL Bochum 1848 2011-2022 and has played ',
-                        'Hertha BSC since 2022'
-    bundesliga.add_node(78, name='Yussuf Poulsen', club='RB Leipzig', 'Boldklubben Skjold 2000-2008, ',
-                        'Lyngby BK 2008-2013 and has played ', 'RB Leipzig since 2013'
-    bundesliga.add_node(79, name='Sven Ulreich', club='FC Bayern München', 'TSV Lichtenwald 1993-1994, ',
-                        'TSV Schornbach 1994-1998, ', 'VfB Stuttgart 1998-2015, ', 'VfB Stuttgart II 1998-2015, ',
-                        'FC Bayern München 2015-2020, ', 'Hamburger SV 2020-2021 and has played ',
-                        'FC Bayern München since 2021'
-    bundesliga.add_node(80, name='Miloš Veljković', club='SV Werder Bremen'
-    bundesliga.add_node(81, name='Semir Telalovic', club='Borussia Mönchengladbach', 'SSV Ehingen-Süd 1974 2017-2021, ',
-                        'FV Illertissen 2021-2022 and has played ', " Borussia M'gladbach since 2022."
-    bundesliga.add_node(82, name='Alexander Meyer', club='Borussia Dortmund', 'VfL Oldesloe 1995-2005, ',
-                        'Hamburger SV 2005-2012, ', 'TSV Havelse 2012-2016, ', 'FC Energie Cottbus 2016-2017, ',
-                        'VfB Stuttgart 2017-2019, ', 'SSV Jahn Regensburg 2019-2022 and has played ',
-                        'Borussia Dortmund since 2022'
-    bundesliga.add_node(83, name='Ibrahima Cissé', club='FC Schalke 04', 'LB Chateauroux 2018-2019, ',
-                        'KAA Gent 2019-2022 and has played ', 'FC Schalke 04 since 2022'
-    bundesliga.add_node(84, name='Atakan Karazor', club='VfB Stuttgart', 'Schwarz-Weiß Essen 2011-2012, ',
-                        'VfL Bochum 1848 2012-2015, ', 'Borussia Dortmund 2015-2017, ',
-                        'Borussia Dortmund II 2015-2017, ', 'Holstein Kiel 2017-2019 and has played ',
-                        'VfB Stuttgart since 2019'
-    bundesliga.add_node(85, name='Kevin Akpoguma', club='TSG 1899 Hoffenheim', 'FC Neureut 2006-2007, ',
-                        'Karlsruher SC 2007-2013, ', 'TSG Hoffenheim 2013-2015, ', 'Fortuna Düsseldorf 2015-2017, ',
-                        'TSG Hoffenheim 2017-2018, ', 'Hannover 96 2019-2019 and has played ',
-                        'TSG Hoffenheim since 2019'
-    bundesliga.add_node(86, name='Andreas Hanche-Olsen', club='1. FSV Mainz 05', 'Stabaek IF 2013-2020, ',
-                        'KAA Gent 2020-2023 and has played ', '1. FSV Mainz 05 since 2023'
-    bundesliga.add_node(87, name='Felix Uduokhai', club='FC Augsburg', 'FC Erzgebirge Aue 2007-2008, ',
-                        'TSV 1860 München 2008-2017, ', 'VfL Wolfsburg 2017-2019 and has played ',
-                        'FC Augsburg since 2019'
-    bundesliga.add_node(88, name='Saidy Janko', club='VfL Bochum', 'FC Zürich 2006-2013, ',
-                        'Manchester United FC 2013-2015, ', 'Bolton Wanderers FC 2015-2015, ',
-                        'Celtic Glasgow FC 2015-2016, ', 'Barnsley FC 2016-2017, ', 'AS Saint Etienne 2017-2018, ',
-                        'FC Porto 2018-2018, ', 'Nottingham Forest FC 2018-2019, ', 'Berner SC Young Boys 2019-2020, ',
-                        'FC Porto 2020-2020, ', 'Real Valladolid CF 2020-2022 and has played ',
-                        'VfL Bochum 1848 since 2022'
-    bundesliga.add_node(89, name='Linton Maina', club='1. FC Köln', 'SV Pfefferwerk Berlin 2003-2011, ',
-                        'SV Empor Berlin 2011-2014, ', 'Hannover 96 2014-2022 and has played ', '1. FC Köln since 2022'
-    bundesliga.add_node(90, name='Kevin Möhwald', club='1. FC Union Berlin', 'FC Rot-Weiß Erfurt 2001-2015, ',
-                        '1. FC Nürnberg 2015-2018, ', 'SV Werder Bremen 2018-2021 and has played ',
-                        '1. FC Union Berlin since 2021'
-    bundesliga.add_node(91, name='Benno Schmitz', club='1. FC Köln', 'SV Waldperlach 2000-2001, ',
-                        'FC Bayern München 2001-2014, ', 'FC Red Bull Salzburg 2014-2016, ',
-                        'RB Leipzig 2016-2018 and has played ', '1. FC Köln since 2018'
-    bundesliga.add_node(92, name='Mario Götze', club='Eintracht Frankfurt', 'SC Ronsberg 1995-1998, ',
+    bundesliga.add_node(23, name='Yannick Gerhardt', club='VfL Wolfsburg', y2013='1. FC Köln', y2014='1. FC Köln', y2015='1. FC Köln', y2016='VfL Wolfsburg', y2017='VfL Wolfsburg', y2018='VfL Wolfsburg', y2019='VfL Wolfsburg', y2020='VfL Wolfsburg', y2021='VfL Wolfsburg', y2022='VfL Wolfsburg')
+    bundesliga.add_node(24, name='Irvin Cardona', club='FC Augsburg', y2013='AS Monaco', y2014='AS Monaco', y2015='AS Monaco', y2016='AS Monaco', y2017='Cercle Brügge KSV', y2018='Cercle Brügge KSV', y2019='Stade Brestois', y2020='Stade Brestois', y2021='Stade Brestois', y2022='Stade Brestois')
+    bundesliga.add_node(25, name='Jessic Ngankam', club='Hertha BSC Berlin', y2013='Hertha BSC Berlin', y2014='Hertha BSC Berlin', y2015='Hertha BSC Berlin', y2016='Hertha BSC Berlin', y2017='Hertha BSC Berlin', y2018='Hertha BSC Berlin', y2019='Hertha BSC Berlin', y2020='Hertha BSC Berlin', y2021='SpVgg Greuther Fürth', y2022='SpVgg Greuther Fürth')
+    bundesliga.add_node(26, name='Benjamin Uphoff', club='Sport-Club Freiburg', y2013='1. FC Nürnberg', y2014='VfB Stuttgart', y2015='VfB Stuttgart', y2016='VfB Stuttgart', y2017='Karlsruher SC', y2018='Karlsruher SC', y2019='Karlsruher SC', y2020='SC Freiburg', y2021='SC Freiburg', y2022='SC Freiburg')
+    bundesliga.add_node(27, name='Dani Olmo', club='RB Leipzig', y2013='FC Barcelona', y2014='GNK Dinamo Zagreb', y2015='GNK Dinamo Zagreb', y2016='GNK Dinamo Zagreb', y2017='GNK Dinamo Zagreb', y2018='GNK Dinamo Zagreb', y2019='GNK Dinamo Zagreb', y2020='RB Leipzig', y2021='RB Leipzig', y2022='RB Leipzig')
+    bundesliga.add_node(28, name='Grischa Prömel', club='TSG 1899 Hoffenheim', y2013='TSG 1899 Hoffenheim', y2014='TSG 1899 Hoffenheim', y2015='Karlsruher SC', y2016='Karlsruher SC', y2017='1. FC Union Berlin', y2018='1. FC Union Berlin', y2019='1. FC Union Berlin', y2020='1. FC Union Berlin', y2021='1. FC Union Berlin', y2022='1. FC Union Berlin')
+    bundesliga.add_node(29, name='Mark Uth', club='1. FC Köln', y2013='Heracles Almelo', y2014='SC Heerenveen', y2015='TSG 1899 Hoffenheim', y2016='TSG 1899 Hoffenheim', y2017='TSG 1899 Hoffenheim', y2018='FC Schalke 04', y2019='FC Schalke 04', y2020='FC Schalke 04', y2021='1. FC Köln', y2022='1. FC Köln')
+    bundesliga.add_node(30, name='Exequiel Palacios', club='Bayer 04 Leverkusen',y2013='CA River Plate', y2014='CA River Plate', y2015='CA River Plate', y2016='CA River Plate', y2017='CA River Plate', y2018='CA River Plate', y2019='CA River Plate', y2020='Bayer 04 Leverkusen', y2021='Bayer 04 Leverkusen', y2022='Bayer 04 Leverkusen')
+    bundesliga.add_node(31, name='Luca Pfeiffer', club='VfB Stuttgart', y2013='FSV Hollenbach', y2014='FSV Hollenbach', y2015='FSV Hollenbach', y2016='SV Stuttgarter Kickers', y2017='SV Stuttgarter Kickers', y2018='VfL Osnabrück', y2019='FC Würzburger Kickers', y2020='SV Darmstadt 98', y2021='SV Darmstadt 98', y2022='SV Darmstadt 98')
+    bundesliga.add_node(32, name='Silvan Widmer', club='1. FSV Mainz 05', y2013='Udinese Calcio', y2014='Udinese Calcio', y2015='Udinese Calcio', y2016='Udinese Calcio', y2017='Udinese Calcio', y2018='FC Basel', y2019='FC Basel', y2020='FC Basel', y2021='1. FSV Mainz 05', y2022='1. FSV Mainz 05')
+    bundesliga.add_node(33, name='Moritz Jenz', club='FC Schalke 04', y2014='Tennis Borussia Berlin', y2015='Fulham FC', y2016='Fulham FC', y2017='Fulham FC', y2018='Fulham FC', y2019='Fulham FC', y2020='Lausanne-Sports', y2021='FC Lorient', y2022='Celtic Glasgow FC')
+    bundesliga.add_node(34, name='Marcus Thuram', club='Borussia Mönchengladbach', y2013='FC Sochaux', y2014='FC Sochaux', y2015='FC Sochaux', y2016='FC Sochaux', y2017='En Avant de Guingamp', y2018='En Avant de Guingamp', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(35, name='Florian Müller', club='VfB Stuttgart', y2013='1. FSV Mainz 05', y2014='1. FSV Mainz 05', y2015='1. FSV Mainz 05', y2016='1. FSV Mainz 05', y2017='1. FSV Mainz 05', y2018='1. FSV Mainz 05', y2019='1. FSV Mainz 05', y2020='1. FSV Mainz 05', y2021='VfB Stuttgart', y2022='VfB Stuttgart')
+    bundesliga.add_node(36, name='Kevin Vogt', club='TSG 1899 Hoffenheim', y2013='FC Augsburg', y2014='1. FC Köln', y2015='1. FC Köln', y2016='TSG 1899 Hoffenheim', y2017='TSG 1899 Hoffenheim', y2018='TSG 1899 Hoffenheim', y2019='TSG 1899 Hoffenheim', y2020='SV Werder Bremen', y2021='TSG 1899 Hoffenheim', y2022='TSG 1899 Hoffenheim')
+    bundesliga.add_node(37, name='Iago', club='FC Augsburg', y2013='SC Internacional', y2014='SC Internacional', y2015='SC Internacional', y2016='SC Internacional', y2017='SC Internacional', y2018='SC Internacional', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='FC Augsburg')
+    bundesliga.add_node(38, name='Takuma Asano', club='VfL Bochum', y2013='Sanfrecce Hiroshima', y2014='Sanfrecce Hiroshima', y2015='Sanfrecce Hiroshima', y2016='Arsenal FC', y2017='VfB Stuttgart', y2018='Hannover 96', y2019='Arsenal FC', y2020='FK Partizan Belgrad', y2021='VfL Bochum', y2022='VfL Bochum')
+    bundesliga.add_node(39, name='Nico Elvedi', club='Borussia Mönchengladbach', y2013='FC Zürich', y2014='FC Zürich', y2015='Borussia Mönchengladbach', y2016='Borussia Mönchengladbach', y2017='Borussia Mönchengladbach', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(40, name='Lucas Hernández', club='FC Bayern München', y2013='Atletico Madrid', y2014='Atletico Madrid', y2015='Atletico Madrid', y2016='Atletico Madrid', y2017='Atletico Madrid', y2018='Atletico Madrid', y2019='FC Bayern München', y2020='FC Bayern München', y2021='FC Bayern München', y2022='FC Bayern München')
+    bundesliga.add_node(41, name='Luca Waldschmidt', club='VfL Wolfsburg', y2013='Eintracht Frankfurt', y2014='Eintracht Frankfurt', y2015='Eintracht Frankfurt', y2016='Hamburger SV', y2017='Hamburger SV', y2018='SC Freiburg', y2019='SC Freiburg', y2020='SL Benfica Lissabon', y2021='VfL Wolfsburg', y2022='VfL Wolfsburg')
+    bundesliga.add_node(42, name='Marius Wolf', club='Borussia Dortmund', y2013='TSV 1860 München', y2014='TSV 1860 München', y2015='TSV 1860 München', y2016='Hannover 96', y2017='Eintracht Frankfurt', y2018='Borussia Dortmund', y2019='Hertha BSC Berlin', y2020='Borussia Dortmund', y2021='1. FC Köln', y2022='Borussia Dortmund')
+    bundesliga.add_node(43, name='Konstantinos Mavropanos', club='VfB Stuttgart', y2013='Apollon Smyrnis', y2014='Apollon Smyrnis', y2015='Apollon Smyrnis', y2016='PAS Giannina FC', y2017='PAS Giannina FC', y2018='Arsenal FC', y2019='Arsenal FC', y2020='1. FC Nürnberg', y2021='VfB Stuttgart', y2022='VfB Stuttgart')
+    bundesliga.add_node(44, name='Joshua Kimmich', club='FC Bayern München', y2013='RB Leipzig', y2014='RB Leipzig', y2015='FC Bayern München', y2016='FC Bayern München', y2017='FC Bayern München', y2018='FC Bayern München', y2019='FC Bayern München', y2020='FC Bayern München', y2021='FC Bayern München', y2022='FC Bayern München')
+    bundesliga.add_node(45, name='Christoph Baumgartner', club='TSG 1899 Hoffenheim', y2013='AKA St. Pölten' , y2014='AKA St. Pölten' , y2015='AKA St. Pölten' , y2016='AKA St. Pölten' , y2017='TSG 1899 Hoffenheim', y2018='TSG 1899 Hoffenheim', y2019='TSG 1899 Hoffenheim', y2020='TSG 1899 Hoffenheim', y2021='TSG 1899 Hoffenheim', y2022='TSG 1899 Hoffenheim')
+    bundesliga.add_node(46, name='Lee Buchanan', club='SV Werder Bremen', y2013='Derby County FC', y2014='Derby County FC', y2015='Derby County FC', y2016='Derby County FC', y2017='Derby County FC', y2018='Derby County FC', y2019='Derby County FC', y2020='Derby County FC', y2021='Derby County FC', y2022='SV Werder Bremen')
+    bundesliga.add_node(47, name='Michael Gregoritsch', club='SC Freiburg', y2013='FC St. Pauli', y2014='VfL Bochum', y2015='Hamburger SV', y2016='Hamburger SV', y2017='FC Augsburg', y2018='FC Augsburg', y2019='FC Augsburg', y2020='FC Schalke', y2021='FC Augsburg', y2022='SC Freiburg')
+    bundesliga.add_node(48, name='Benjamin Leneis', club='FC Augsburg', y2014='1. FC Nürnberg', y2015='FC Augsburg', y2016='FC Augsburg', y2017='FC Augsburg', y2018='FC Augsburg', y2019='FC Augsburg', y2020='FC Augsburg', y2021='1. FC Magdeburg', y2022='FC Augsburg')
+    bundesliga.add_node(49, name='Dženan Pejčinović', club='VfL Wolfsburg', y2016='FC Bayern München', y2017='FC Augsburg', y2018='FC Augsburg', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='VfL Wolfsburg')
+    bundesliga.add_node(50, name='Niklas Lomb', club='Bayer 04 Leverkusen', y2013='Bayer 04 Leverkusen', y2014='Bayer 04 Leverkusen', y2015='Hallescher FC', y2016='SC Preußen Münster', y2017='Bayer 04 Leverkusen', y2018='SV Sandhausen', y2019='SV Sandhausen', y2020='Bayer 04 Leverkusen', y2021='Bayer 04 Leverkusen', y2022='Bayer 04 Leverkusen')
+    bundesliga.add_node(51, name='Muhammed Damar', club='TSG 1899 Hoffenheim', y2013='FC Hertha 03 Zehlendorf', y2014='FC Hertha 03 Zehlendorf', y2015='Hertha BSC Berlin', y2016='Hertha BSC Berlin', y2017='Hertha BSC Berlin', y2018='Hertha BSC Berlin', y2019='FC Hertha 03 Zehlendorf', y2020='Eintracht Frankfurt', y2021='Eintracht Frankfurt', y2022='TSG 1899 Hoffenheim')
+    bundesliga.add_node(52, name='John Anthony Brooks', club='TSG 1899 Hoffenheim', y2013='Hertha BSC Berlin', y2014='Hertha BSC Berlin', y2015='Hertha BSC Berlin', y2016='Hertha BSC Berlin', y2017='VfL Wolfsburg', y2018='VfL Wolfsburg', y2019='VfL Wolfsburg', y2020='VfL Wolfsburg', y2021='VfL Wolfsburg', y2022='SL Benfica Lissabon')
+    bundesliga.add_node(53, name='Patrik Schick', club='Bayer 04 Leverkusen', y2013='AC Sparta Prag', y2014='AC Sparta Prag', y2015='Bohemians Prag', y2016='AC Sparta Prag', y2017='AS Rom', y2018='AS Rom', y2019='RB Leipzig', y2020='RB Leipzig', y2021='Bayer 04 Leverkusen', y2022='Bayer 04 Leverkusen')
+    bundesliga.add_node(54, name='Christopher Lenz', club='Eintracht Frankfurt', y2013='Borussia Mönchengladbach', y2014='Borussia Mönchengladbach', y2015='Borussia Mönchengladbach', y2016='1. FC Union Berlin', y2017='Holstein Kiel', y2018='1. FC Union Berlin', y2019='1. FC Union Berlin', y2020='1. FC Union Berlin', y2021='Eintracht Frankfurt', y2022='Eintracht Frankfurt')
+    bundesliga.add_node(55, name='Sebastian Polter', club='FC Schalke 04', y2013='1. FSV Mainz 05', y2014='1. FC Union Berlin', y2015='Queens Park Rangers', y2016='Queens Park Rangers', y2017='1. FC Union Berlin', y2018='1. FC Union Berlin', y2019='1. FC Union Berlin', y2020='VfL Bochum', y2021='VfL Bochum', y2022='FC Schalke 04')
+    bundesliga.add_node(56, name='Jakob Busk', club='1. FC Union Berlin', y2013='FC Kopenhagen', y2014='AC Horsens', y2015='Sandefjord Fotball', y2016='FC Kopenhagen', y2017='1. FC Union Berlin', y2018='1. FC Union Berlin', y2019='1. FC Union Berlin', y2020='1. FC Union Berlin', y2021='1. FC Union Berlin', y2022='1. FC Union Berlin')
+    bundesliga.add_node(57, name='Conor Noß', club='Borussia Mönchengladbach', y2013='Borussia Mönchengladbach', y2014='Borussia Mönchengladbach', y2015='Borussia Mönchengladbach', y2016='Borussia Mönchengladbach', y2017='Borussia Mönchengladbach', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(58, name='Lukáš Ambros ', club='VfL Wolfsburg', y2015='1. FC Slovacko', y2016='1. FC Slovacko', y2017='SK Slavia Prag', y2018='SK Slavia Prag', y2019='SK Slavia Prag', y2020='VfL Wolfsburg', y2021='VfL Wolfsburg', y2022='VfL Wolfsburg')
+    bundesliga.add_node(59, name='Mërgim Berisha  ', club='FC Augsburg',y2016='FC Liefering', y2017='FC Red Bull Salzburg', y2018='1. FC Magdeburg', y2019='FC Red Bull Salzburg', y2020='FC Red Bull Salzburg', y2021='Fenerbahce SK Istanbul', y2022='FC Augsburg')
+    bundesliga.add_node(60, name='Erhan Mašović nd ', club='VfL Bochum', y2013='FK Cukaricki', y2014='FK Cukaricki', y2015='FK Cukaricki', y2016='FK Cukaricki', y2017='Club Brügge KV', y2018='FK AS Trencin', y2019='Club Brügge KV', y2020='VfL Bochum', y2021='VfL Bochum', y2022='VfL Bochum')
+
+    bundesliga.add_node(61, name='Tim Skarke', club='FC Schalke 04', y2013='1. FC Heidenheim', y2014='1. FC Heidenheim', y2015='1. FC Heidenheim', y2016='1. FC Heidenheim', y2017='1. FC Heidenheim', y2018='1. FC Heidenheim', y2019='SV Darmstadt 98', y2020='SV Darmstadt 98', y2021='SV Darmstadt 98', y2022='1. FC Union Berlin')
+
+    bundesliga.add_node(62, name='Philipp Förster ', club='VfL Bochum', y2013='VfB Stuttgart', y2014='SV Waldhof Mannheim', y2015='SV Waldhof Mannheim', y2016='SV Waldhof Mannheim', y2017='1. FC Nürnberg', y2018='SV Sandhausen', y2019='VfB Stuttgart', y2020='VfB Stuttgart', y2021='VfB Stuttgart', y2022='VfL Bochum')
+
+    bundesliga.add_node(63, name='Jonas Hofmann ', club='Borussia Mönchengladbach', y2013='Borussia Dortmund', y2014='1. FSV Mainz 05', y2015='Borussia Dortmund', y2016='Borussia Mönchengladbach', y2017='Borussia Mönchengladbach', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+
+    bundesliga.add_node(64, name='Ko Itakura', club='Borussia Mönchengladbach', y2013='Kawasaki Frontale', y2014='Kawasaki Frontale', y2015='Kawasaki Frontale', y2016='Kawasaki Frontale', y2017='Kawasaki Frontale', y2018='Vegalta Sendai', y2019='Kawasaki Frontale', y2020='Manchester City FC', y2021='Manchester City FC', y2022='Borussia Mönchengladbach')
+
+    bundesliga.add_node(65, name='Daniel Klein', club='FC Augsburg', y2013='FC Astoria Walldorf', y2014='TSG 1899 Hoffenheim', y2015='TSG 1899 Hoffenheim', y2016='TSG 1899 Hoffenheim', y2017='TSG 1899 Hoffenheim', y2018='TSG 1899 Hoffenheim', y2019='TSG 1899 Hoffenheim', y2020='TSG 1899 Hoffenheim', y2021='FC Augsburg', y2022='FC Augsburg')
+
+    bundesliga.add_node(66, name='Frederik Rønnow', club='1. FC Union Berlin', y2013='Esbjerg FB', y2014='AC Horsens', y2015='Bröndby IF', y2016='Bröndby IF', y2017='Bröndby IF', y2018='Eintracht Frankfurt', y2019='Eintracht Frankfurt', y2020='Eintracht Frankfurt', y2021='1. FC Union Berlin', y2022='1. FC Union Berlin')
+
+    bundesliga.add_node(67, name='Chidera Ejuke', club='Hertha Berlin', y2016='Gombe United FC', y2017='Valerenga IF Oslo', y2018='Valerenga IF Oslo', y2019='SC Heerenveen', y2020='PFC CSKA Moskau', y2021='PFC CSKA Moskau', y2022='Hertha BSC Berlin')
+
+    bundesliga.add_node(68, name='Sven Michel', club='1. FC Union Berlin', y2013='Borussia Mönchengladbach', y2014='FC Energie Cottbus', y2015='FC Energie Cottbus', y2016='SC Paderborn 07', y2017='SC Paderborn 07', y2018='SC Paderborn 07', y2019='SC Paderborn 07', y2020='SC Paderborn 07', y2021='SC Paderborn 07', y2022='1. FC Union Berlin')
+
+    bundesliga.add_node(69, name='Alassane Pléa', club='Borussia Mönchengladbach', y2013='Olympique Lyonnais', y2014='AJ Auxerre' , y2015='OGC Nice', y2016='OGC Nice', y2017='OGC Nice', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+
+    bundesliga.add_node(70, name='Waldemar Anton', club = 'VfB Stuttgart', y2013='Hannover 96', y2014='Hannover 96', y2015='Hannover 96', y2016='Hannover 96', y2017='Hannover 96', y2018='Hannover 96', y2019='Hannover 96', y2020='VfB Stuttgart', y2021='VfB Stuttgart', y2022='VfB Stuttgart')
+
+    bundesliga.add_node(71, name='Angeliño', club='TSG 1899 Hoffenheim', y2013='Manchester City FC', y2014='Manchester City FC', y2015='New York City FC', y2016='Manchester City FC', y2017='RCD Mallorca', y2018='PSV Eindhoven', y2019='Manchester City FC', y2020='RB Leipzig', y2021='RB Leipzig', y2022='TSG 1899 Hoffenheim')
+
+    bundesliga.add_node(72, name='Niclas Füllkrug', club='SV Werder Bremen', y2013='SpVgg Greuther Fürth', y2014='1. FC Nürnberg', y2015='1. FC Nürnberg', y2016='Hannover 96', y2017='Hannover 96', y2018='Hannover 96', y2019='SV Werder Bremen', y2020='SV Werder Bremen', y2021='SV Werder Bremen', y2022='SV Werder Bremen')
+
+    bundesliga.add_node(73, name='Antonis Aidonis', club='VfB Stuttgart', y2013='TSG 1899 Hoffenheim', y2014='TSG 1899 Hoffenheim', y2015='TSG 1899 Hoffenheim', y2016='TSG 1899 Hoffenheim', y2017='TSG 1899 Hoffenheim', y2018='VfB Stuttgart', y2019='VfB Stuttgart', y2020='VfB Stuttgart', y2021='SG Dynamo Dresden', y2022='VfB Stuttgart')
+
+    bundesliga.add_node(74, name='Adam Hložek', club='Bayer 04 Leverkusen', y2013='FC Ivancice', y2014='AC Sparta Prag', y2015='AC Sparta Prag', y2016='AC Sparta Prag', y2017='AC Sparta Prag', y2018='AC Sparta Prag', y2019='AC Sparta Prag', y2020='AC Sparta Prag', y2021='AC Sparta Prag', y2022='Bayer 04 Leverkusen')
+
+    bundesliga.add_node(75, name='Jonas Wind', club='VfL Wolfsburg', y2013='FC Kopenhagen', y2014='FC Kopenhagen', y2015='FC Kopenhagen', y2016='FC Kopenhagen', y2017='FC Kopenhagen', y2018='FC Kopenhagen', y2019='FC Kopenhagen', y2020='FC Kopenhagen', y2021='FC Kopenhagen', y2022='FC Kopenhagen')
+
+    bundesliga.add_node(76, name='Jonas Hector', club='1. FC Köln', y2013='1. FC Köln', y2014='1. FC Köln', y2015='1. FC Köln', y2016='1. FC Köln', y2017='1. FC Köln', y2018='1. FC Köln', y2019='1. FC Köln', y2020='1. FC Köln', y2021='1. FC Köln', y2022='1. FC Köln')
+
+    bundesliga.add_node(77, name='Tjark Ernst', club='Hertha BSC Berlin', y2013='VfL Bochum', y2014='VfL Bochum', y2015='VfL Bochum', y2016='VfL Bochum', y2017='VfL Bochum', y2018='VfL Bochum', y2019='VfL Bochum', y2020='VfL Bochum', y2021='VfL Bochum', y2022='Hertha BSC Berlin')
+
+    bundesliga.add_node(78, name='Yussuf Poulsen', club='RB Leipzig', y2013='RB Leipzig', y2014='RB Leipzig', y2015='RB Leipzig', y2016='RB Leipzig', y2017='RB Leipzig', y2018='RB Leipzig', y2019='RB Leipzig', y2020='RB Leipzig', y2021='RB Leipzig', y2022='RB Leipzig')
+
+    bundesliga.add_node(79, name='Sven Ulreich', club='FC Bayern München', y2013='VfB Stuttgart', y2014='VfB Stuttgart', y2015='FC Bayern München', y2016='FC Bayern München', y2017='FC Bayern München', y2018='FC Bayern München', y2019='FC Bayern München', y2020='Hamburger SV', y2021='FC Bayern München', y2022='FC Bayern München')
+
+    bundesliga.add_node(80, name='Miloš Veljković', club='SV Werder Bremen')
+    bundesliga.add_node(81, name='Semir Telalovic', club='Borussia Mönchengladbach', y2017='SSV Ehingen-Süd', y2018='SSV Ehingen-Süd', y2019='SSV Ehingen-Süd', y2020='SSV Ehingen-Süd', y2021='FV Illertissen', y2022='Borussia Mönchengladbach')
+
+    bundesliga.add_node(82, name='Alexander Meyer', club='Borussia Dortmund', y2013='TSV Havelse', y2014='TSV Havelse', y2015='TSV Havelse', y2016='FC Energie Cottbus', y2017='VfB Stuttgart', y2018='VfB Stuttgart', y2019='SSV Jahn Regensburg', y2020='SSV Jahn Regensburg', y2021='SSV Jahn Regensburg', y2022='Borussia Dortmund')
+
+    bundesliga.add_node(83, name='Ibrahima Cissé', club='FC Schalke 04', y2018='LB Chateauroux', y2019='KAA Gent', y2020='KAA Gent', y2021='KAA Gent', y2022='FC Schalke 04')
+
+    bundesliga.add_node(84, name='Atakan Karazor', club='VfB Stuttgart', y2013='VfL Bochum', y2014='VfL Bochum', y2015='Borussia Dortmund', y2016='Borussia Dortmund', y2017='Holstein Kiel', y2018='Holstein Kiel', y2019='VfB Stuttgart', y2020='VfB Stuttgart', y2021='VfB Stuttgart', y2022='VfB Stuttgart')
+
+    bundesliga.add_node(85, name='Kevin Akpoguma', club='TSG 1899 Hoffenheim', y2013='TSG 1899 Hoffenheim', y2014='TSG 1899 Hoffenheim', y2015='Fortuna Düsseldorf', y2016='Fortuna Düsseldorf', y2017='TSG 1899 Hoffenheim', y2018='TSG 1899 Hoffenheim', y2019='Hannover 96', y2020='TSG 1899 Hoffenheim', y2021='TSG 1899 Hoffenheim', y2022='TSG 1899 Hoffenheim')
+
+    bundesliga.add_node(86, name='Andreas Hanche-Olsen', club='1. FSV Mainz 05', y2013='Stabaek IF', y2014='Stabaek IF', y2015='Stabaek IF', y2016='Stabaek IF', y2017='Stabaek IF', y2018='Stabaek IF', y2019='Stabaek IF', y2020='KAA Gent', y2021='KAA Gent', y2022='KAA Gent')
+
+    bundesliga.add_node(87, name='Felix Uduokhai', club='FC Augsburg', y2013='TSV 1860 München', y2014='TSV 1860 München', y2015='TSV 1860 München', y2016='TSV 1860 München', y2017='TSV 1860 München', y2018='TSV 1860 München', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='FC Augsburg')
+
+    bundesliga.add_node(88, name='Saidy Janko', club='VfL Bochum', y2013='Manchester United FC', y2014='Manchester United FC', y2015='Bolton Wanderers FC', y2016='Barnsley FC', y2017='AS Saint Etienne', y2018='FC Porto', y2019='Berner SC Young Boys', y2020='FC Porto', y2021='VfL Bochum', y2022='VfL Bochum')
+
+    bundesliga.add_node(89, name='Linton Maina', club='1. FC Köln', y2013='SV Empor Berlin', y2014='Hannover 96', y2015='Hannover 96', y2016='Hannover 96', y2017='Hannover 96', y2018='Hannover 96', y2019='Hannover 96', y2020='Hannover 96', y2021='Hannover 96', y2022='1. FC Köln')
+
+    bundesliga.add_node(90, name='Kevin Möhwald', club='1. FC Union Berlin', y2013= 'FC Rot-Weiß Erfurt', y2014= 'FC Rot-Weiß Erfurt', y2015='1. FC Nürnberg', y2016='1. FC Nürnberg', y2017='1. FC Nürnberg', y2018='SV Werder Bremen', y2019='SV Werder Bremen', y2020='SV Werder Bremen', y2021='1. FC Union Berlin', y2022='1. FC Union Berlin')
+
+
+    bundesliga.add_node(91, name='Benno Schmitz', club='1. FC Köln', y2013='FC Bayern München', y2014='FC Red Bull Salzburg', y2015='FC Red Bull Salzburg', y2016='RB Leipzig', y2017='RB Leipzig', y2018='1. FC Köln', y2019='1. FC Köln', y2020='1. FC Köln', y2021='1. FC Köln', y2022='1. FC Köln')
+    """
+    bundesliga.add_node(92, name='Mario Götze', club='Eintracht Frankfurt', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
+                        'SC Ronsberg 1995-1998, ',
                         'FC Eintracht Hombruch 1998-2001, ', 'Borussia Dortmund 2001-2013, ',
                         'FC Bayern München 2013-2016, ', 'Borussia Dortmund 2016-2020, ',
                         'PSV Eindhoven 2020-2022 and has played ', 'Eintracht Frankfurt since 2022'
-    bundesliga.add_node(93, name='Amine Adli', club='Bayer 04 Leverkusen', 'AS Pezenas Tourbes 2007-2012, ',
+    bundesliga.add_node(93, name='Amine Adli', club='Bayer 04 Leverkusen', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
+                        'AS Pezenas Tourbes 2007-2012, ',
                         'AS Beziers 2012-2015, ', 'Toulouse FC 2015-2021 and has played ',
                         'Bayer 04 Leverkusen since 2021'
-    bundesliga.add_node(94, name='Stanley Nsoki', club='TSG 1899 Hoffenheim', 'US Roissy-en-Brie 2007-2014, ',
+    bundesliga.add_node(94, name='Stanley Nsoki', club='TSG 1899 Hoffenheim', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
+                        'US Roissy-en-Brie 2007-2014, ',
                         'Paris Saint-Germain FC 2014-2019, ', 'OGC Nice 2019-2021, ',
                         'Club Brügge KV 2021-2022 and has played ', 'TSG Hoffenheim since 2022'
-    bundesliga.add_node(95, name='Gabriel Marušić', club='FC Bayern München'
-    bundesliga.add_node(96, name='Robert Skov', club='TSG 1899 Hoffenheim', 'Silkeborg IF 2012-2018, ',
+    bundesliga.add_node(95, name='Gabriel Marušić', club='FC Bayern München')
+    bundesliga.add_node(96, name='Robert Skov', club='TSG 1899 Hoffenheim', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
+                        'Silkeborg IF 2012-2018, ',
                         'FC Kopenhagen 2018-2019 and has played ', 'TSG Hoffenheim since 2019'
-    bundesliga.add_node(97, name='André Hahn', club='FC Augsburg', 'TSV Otterndorf 1862 1997-2003, ',
+    bundesliga.add_node(97, name='André Hahn', club='FC Augsburg', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
+                        'TSV Otterndorf 1862 1997-2003, ',
                         'Leher Turnerschaft 2003-2005, ', 'Rot-Weiss Cuxhaven 2005-2007, ',
                         'FC Bremerhaven 2008-2008, ', 'Hamburger SV 2008-2010, ', 'FC Oberneuland 2010-2011, ',
                         'TuS Koblenz 2011-2011, ', 'Kickers Offenbach 2011-2013, ', 'FC Augsburg 2013-2014, ',
                         " Borussia M'gladbach 2014-2017, ", 'Hamburger SV 2017-2018 and has played ',
                         'FC Augsburg since 2018'
-    bundesliga.add_node(98, name='Matthijs de Ligt', club='FC Bayern München', 'FC Abcoude 2005-2009, ',
+    bundesliga.add_node(98, name='Matthijs de Ligt', club='FC Bayern München', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
+                        'FC Abcoude 2005-2009, ',
                         'Ajax Amsterdam 2009-2019, ', 'Juventus FC Turin 2019-2022 and has played ',
                         'FC Bayern München since 2022'
-    bundesliga.add_node(99, name='Hiroki Ito', club='VfB Stuttgart', 'Jubilo Iwata 2015-2019, ',
+    bundesliga.add_node(99, name='Hiroki Ito', club='VfB Stuttgart', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
+                        'Jubilo Iwata 2015-2019, ',
                         'Nagoya Grampus Eight 2019-2020, ', 'Jubilo Iwata 2020-2021 and has played ',
                         'VfB Stuttgart since 2021'
-    bundesliga.add_node(100, name='Moritz Broschinski', club='VfL Bochum', 'SV Hertha Finsterwalde 2005-2011, ',
+    bundesliga.add_node(100, name='Moritz Broschinski', club='VfL Bochum', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
+                        'SV Hertha Finsterwalde 2005-2011, ',
                         'FSV Brieske/Senftenberg 2011-2012, ', 'FC Energie Cottbus 2012-2020, ',
                         'Borussia Dortmund 2020-2023, ', 'Borussia Dortmund II 2020-2023 and has played ',
                         'VfL Bochum 1848 since 2023'
@@ -1707,3 +1570,75 @@ def createnodes():
     bundesliga.add_node(535, name='Borna Sosa', club='VfB Stuttgart', 'GNK Dinamo Zagreb 2006-2018 and has played ',
                         'VfB Stuttgart since 2018'
     bundesliga.add_node(536, name='Karim Onisiwo', club='1. FSV Mainz 05'
+    """
+
+    numbernodes = bundesliga.number_of_nodes()
+    print(numbernodes)
+
+    for i in range(1, numbernodes+1):
+        for j in range(1, numbernodes+1):
+
+            if (bundesliga._node[i] == bundesliga._node[j]):
+                break
+
+            if (bundesliga._node[i].get('club') == bundesliga._node[j].get('club')):
+                bundesliga.add_edge(i,j)
+            if (bundesliga._node[i].get('y2013') == bundesliga._node[j].get('y2013')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2014') == bundesliga._node[j].get('y2014')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2015') == bundesliga._node[j].get('y2015')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2016') == bundesliga._node[j].get('y2016')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2017') == bundesliga._node[j].get('y2017')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2018') == bundesliga._node[j].get('y2018')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2019') == bundesliga._node[j].get('y2019')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2020') == bundesliga._node[j].get('y2020')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2021') == bundesliga._node[j].get('y2021')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2022') == bundesliga._node[j].get('y2022')):
+                bundesliga.add_edge(i, j)
+
+    playergroups=asyn_lpa_communities(bundesliga)
+    players = []
+    color_map = []
+
+    position = nx.spring_layout(bundesliga)
+
+    for player in playergroups:
+        players.append(player)
+    print(len(players))
+
+    for node in bundesliga:
+        if node in players[0]:
+            color_map.append('blue')
+        elif node in players[1]:
+            color_map.append('red')
+        elif node in players[2]:
+            color_map.append('green')
+        elif node in players[3]:
+            color_map.append('yellow')
+        elif node in players[4]:
+            color_map.append('magenta')
+        elif node in players[5]:
+            color_map.append('pink')
+        elif node in players[6]:
+            color_map.append('brown')
+        elif node in players[7]:
+            color_map.append('cyan')
+        elif node in players[8]:
+            color_map.append('orange')
+        elif node in players[9]:
+            color_map.append('#228B22')
+        elif node in players[10]:
+            color_map.append('#F4A460')
+        elif node in players[11]:
+            color_map.append('#A020F0')
+
+    nx.draw(bundesliga, pos=nx.spring_layout(bundesliga),node_color=color_map, with_labels=True)
+    plt.show()
