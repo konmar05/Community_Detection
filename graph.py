@@ -1,9 +1,11 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import networkx.algorithms.community as functions
 import colors as col
 
 from networkx.algorithms.community.centrality import girvan_newman
 from networkx.algorithms.community.label_propagation import asyn_lpa_communities
+from networkx.algorithms.community.asyn_fluid import asyn_fluidc
 
 
 def drawgraph():
@@ -183,44 +185,24 @@ def createnodes():
 
 
     bundesliga.add_node(91, name='Benno Schmitz', club='1. FC Köln', y2013='FC Bayern München', y2014='FC Red Bull Salzburg', y2015='FC Red Bull Salzburg', y2016='RB Leipzig', y2017='RB Leipzig', y2018='1. FC Köln', y2019='1. FC Köln', y2020='1. FC Köln', y2021='1. FC Köln', y2022='1. FC Köln')
-    """
-    bundesliga.add_node(92, name='Mario Götze', club='Eintracht Frankfurt', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'SC Ronsberg 1995-1998, ',
-                        'FC Eintracht Hombruch 1998-2001, ', 'Borussia Dortmund 2001-2013, ',
-                        'FC Bayern München 2013-2016, ', 'Borussia Dortmund 2016-2020, ',
-                        'PSV Eindhoven 2020-2022 and has played ', 'Eintracht Frankfurt since 2022'
-    bundesliga.add_node(93, name='Amine Adli', club='Bayer 04 Leverkusen', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'AS Pezenas Tourbes 2007-2012, ',
-                        'AS Beziers 2012-2015, ', 'Toulouse FC 2015-2021 and has played ',
-                        'Bayer 04 Leverkusen since 2021'
-    bundesliga.add_node(94, name='Stanley Nsoki', club='TSG 1899 Hoffenheim', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'US Roissy-en-Brie 2007-2014, ',
-                        'Paris Saint-Germain FC 2014-2019, ', 'OGC Nice 2019-2021, ',
-                        'Club Brügge KV 2021-2022 and has played ', 'TSG Hoffenheim since 2022'
+
+    bundesliga.add_node(92, name='Mario Götze', club='Eintracht Frankfurt', y2013='Borussia Dortmund', y2014='FC Bayern München', y2015='FC Bayern München', y2016='FC Bayern München', y2017='Borussia Dortmund', y2018='Borussia Dortmund', y2019='Borussia Dortmund', y2020='PSV Eindhoven', y2021='PSV Eindhoven', y2022='Eintracht Frankfurt')
+
+    bundesliga.add_node(93, name='Amine Adli', club='Bayer 04 Leverkusen', y2013='AS Beziers', y2014='AS Beziers', y2015='Toulouse FC', y2016='Toulouse FC', y2017='Toulouse FC', y2018='Toulouse FC', y2019='Toulouse FC', y2020='Toulouse FC', y2021='Bayer 04 Leverkusen', y2022='Bayer 04 Leverkusen')
+
+    bundesliga.add_node(94, name='Stanley Nsoki', club='TSG 1899 Hoffenheim', y2013='Paris Saint-Germain FC', y2014='Paris Saint-Germain FC', y2015='Paris Saint-Germain FC', y2016='Paris Saint-Germain FC', y2017='Paris Saint-Germain FC', y2018='Paris Saint-Germain FC', y2019='OGC Nice', y2020='OGC Nice', y2021= 'Club Brügge KV', y2022='TSG 1899 Hoffenheim')
+
     bundesliga.add_node(95, name='Gabriel Marušić', club='FC Bayern München')
-    bundesliga.add_node(96, name='Robert Skov', club='TSG 1899 Hoffenheim', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'Silkeborg IF 2012-2018, ',
-                        'FC Kopenhagen 2018-2019 and has played ', 'TSG Hoffenheim since 2019'
-    bundesliga.add_node(97, name='André Hahn', club='FC Augsburg', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'TSV Otterndorf 1862 1997-2003, ',
-                        'Leher Turnerschaft 2003-2005, ', 'Rot-Weiss Cuxhaven 2005-2007, ',
-                        'FC Bremerhaven 2008-2008, ', 'Hamburger SV 2008-2010, ', 'FC Oberneuland 2010-2011, ',
-                        'TuS Koblenz 2011-2011, ', 'Kickers Offenbach 2011-2013, ', 'FC Augsburg 2013-2014, ',
-                        " Borussia M'gladbach 2014-2017, ", 'Hamburger SV 2017-2018 and has played ',
-                        'FC Augsburg since 2018'
-    bundesliga.add_node(98, name='Matthijs de Ligt', club='FC Bayern München', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'FC Abcoude 2005-2009, ',
-                        'Ajax Amsterdam 2009-2019, ', 'Juventus FC Turin 2019-2022 and has played ',
-                        'FC Bayern München since 2022'
-    bundesliga.add_node(99, name='Hiroki Ito', club='VfB Stuttgart', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'Jubilo Iwata 2015-2019, ',
-                        'Nagoya Grampus Eight 2019-2020, ', 'Jubilo Iwata 2020-2021 and has played ',
-                        'VfB Stuttgart since 2021'
-    bundesliga.add_node(100, name='Moritz Broschinski', club='VfL Bochum', y2013=, y2014=, y2015=, y2016=, y2017=, y2018=, y2019=, y2020=, y2021=, y2022=)
-                        'SV Hertha Finsterwalde 2005-2011, ',
-                        'FSV Brieske/Senftenberg 2011-2012, ', 'FC Energie Cottbus 2012-2020, ',
-                        'Borussia Dortmund 2020-2023, ', 'Borussia Dortmund II 2020-2023 and has played ',
-                        'VfL Bochum 1848 since 2023'
+    bundesliga.add_node(96, name='Robert Skov', club='TSG 1899 Hoffenheim', y2013='Silkeborg IF', y2014='Silkeborg IF', y2015='Silkeborg IF', y2016='Silkeborg IF', y2017='Silkeborg IF', y2018='FC Kopenhagen', y2019='TSG 1899 Hoffenheim', y2020='TSG 1899 Hoffenheim', y2021='TSG 1899 Hoffenheim', y2022='TSG 1899 Hoffenheim')
+    bundesliga.add_node(97, name='André Hahn', club='FC Augsburg', y2013='FC Augsburg', y2014='Borussia Mönchengladbach', y2015='Borussia Mönchengladbach', y2016='Borussia Mönchengladbach', y2017='Hamburger SV', y2018='Hamburger SV', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='FC Augsburg')
+
+    bundesliga.add_node(98, name='Matthijs de Ligt', club='FC Bayern München', y2013='Ajax Amsterdam', y2014='Ajax Amsterdam', y2015='Ajax Amsterdam', y2016='Ajax Amsterdam', y2017='Ajax Amsterdam', y2018='Ajax Amsterdam', y2019='Juventus FC Turin', y2020='Juventus FC Turin', y2021='Juventus FC Turin', y2022='FC Bayern München')
+
+    bundesliga.add_node(99, name='Hiroki Ito', club='VfB Stuttgart', y2015='Jubilo Iwata', y2016='Jubilo Iwata', y2017='Jubilo Iwata', y2018='Jubilo Iwata', y2019='Nagoya Grampus Eight', y2020='Jubilo Iwata', y2021= 'VfB Stuttgart', y2022= 'VfB Stuttgart')
+
+    bundesliga.add_node(100, name='Moritz Broschinski', club='VfL Bochum', y2013='FC Energie Cottbus', y2014='FC Energie Cottbus', y2015='FC Energie Cottbus', y2016='FC Energie Cottbus', y2017='FC Energie Cottbus', y2018='FC Energie Cottbus', y2019='FC Energie Cottbus', y2020='Borussia Dortmund', y2021='Borussia Dortmund', y2022='Borussia Dortmund')
+
+    """
     bundesliga.add_node(101, name='Noah Sarenren Bazee', club='FC Augsburg', 'JFC Allertal 2010-2011, ',
                         'TSV Havelse 2011-2013, ', 'Hannover 96 2013-2019 and has played ', 'FC Augsburg since 2019'
     bundesliga.add_node(102, name='Julian Eitschberger', club='Hertha Berlin', 'SC Staaken 2016-2017 and has played ',
@@ -1573,7 +1555,7 @@ def createnodes():
     """
 
     numbernodes = bundesliga.number_of_nodes()
-    print(numbernodes)
+    print('Knoten im Graph: ', numbernodes)
 
     for i in range(1, numbernodes+1):
         for j in range(1, numbernodes+1):
@@ -1604,40 +1586,55 @@ def createnodes():
             if (bundesliga._node[i].get('y2022') == bundesliga._node[j].get('y2022')):
                 bundesliga.add_edge(i, j)
 
-    playergroups=asyn_lpa_communities(bundesliga)
-    players = []
+    result1 = asyn_lpa_communities(bundesliga)
+    result2 = asyn_fluidc(bundesliga, 10)
+    result3 = girvan_newman(bundesliga)
+
+    for p in result3:
+        print(p)
+        print(functions.modularity(bundesliga,p))
+
+
+
+    players_asyn_lpa = []
+    players_asyn_fluidc = []
+
     color_map = []
 
     position = nx.spring_layout(bundesliga)
 
-    for player in playergroups:
-        players.append(player)
-    print(len(players))
+    for player in result1:
+        players_asyn_lpa.append(player)
+    print('Erkannte Communities (mit asy_lpa_communities): ', len(players_asyn_lpa))
+
+    print('Modularity-Score: ', functions.modularity(bundesliga, players_asyn_lpa), ' asyn_lpa_communities')
+    print('Modularity-Score: ', functions.modularity(bundesliga, result2), ' asyn_fluidc')
+
 
     for node in bundesliga:
-        if node in players[0]:
+        if node in players_asyn_lpa[0]:
             color_map.append('blue')
-        elif node in players[1]:
+        elif node in players_asyn_lpa[1]:
             color_map.append('red')
-        elif node in players[2]:
+        elif node in players_asyn_lpa[2]:
             color_map.append('green')
-        elif node in players[3]:
+        elif node in players_asyn_lpa[3]:
             color_map.append('yellow')
-        elif node in players[4]:
+        elif node in players_asyn_lpa[4]:
             color_map.append('magenta')
-        elif node in players[5]:
+        elif node in players_asyn_lpa[5]:
             color_map.append('pink')
-        elif node in players[6]:
+        elif node in players_asyn_lpa[6]:
             color_map.append('brown')
-        elif node in players[7]:
+        elif node in players_asyn_lpa[7]:
             color_map.append('cyan')
-        elif node in players[8]:
+        elif node in players_asyn_lpa[8]:
             color_map.append('orange')
-        elif node in players[9]:
+        elif node in players_asyn_lpa[9]:
             color_map.append('#228B22')
-        elif node in players[10]:
+        elif node in players_asyn_lpa[10]:
             color_map.append('#F4A460')
-        elif node in players[11]:
+        elif node in players_asyn_lpa[11]:
             color_map.append('#A020F0')
 
     nx.draw(bundesliga, pos=nx.spring_layout(bundesliga),node_color=color_map, with_labels=True)
