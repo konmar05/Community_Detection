@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 import database as db
+import example_read_db
 import graph
 from networkx.algorithms.community.centrality import girvan_newman
 
@@ -68,5 +69,6 @@ if __name__ == '__main__':
     #main()
     #db.getData()
     #graph.drawgraph()
-    graph.createnodes()
+    #graph.createnodes()
     #test()
+    example_read_db.main()
