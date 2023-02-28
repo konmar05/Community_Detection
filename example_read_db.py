@@ -26,35 +26,44 @@ def main():
 
     lines = lines_as_lists(fp)
     first_line = lines[0]
-    # first_line.reverse()
-    länge = len(first_line)
-    länge = int(länge / 3)
-    print(länge)
+
+    print(lines[0])
+    for i in range(0, len(first_line)):
+        print(i, ' : ', first_line[i])
+
+    length = int(len(first_line) / 3)
 
     bundesliga = {}
     info = {}
-    vereine = {}
+    vereine = set()
 
-    a = 0
-    b = 3
-    c = 4
-    d = 2
+    name = 0
+    akt_verein = 1
+    vereinsname = 2
+    von = 3
+    bis = 4
 
-    for i in range(0, länge):
 
-        bundesliga[first_line[a]] = info
+    for i in range(0, length):
+        bundesliga[first_line[name]] = info
+        if (first_line[von] == first_line[bis]):
+            info[first_line[von]] = first_line[vereinsname]
+        else:
+            for k in range(first_line[von], first_line[bis]):
+                info[k] = first_line[vereinsname]
 
-        for k in range(first_line[b], first_line[c]):
-            info[k] = first_line[d]
-        if i == 9:
+        vereinsname = vereinsname+3
+        von = von+3
+        bis = bis+3
+        if (bis >= len(first_line)):
+            for index in range(first_line[von], 2023):
+                info[index] = first_line[vereinsname]
+            info[2023] = first_line[akt_verein]
             break
-        b = b + 3
-        c = c + 3
-        d = d + 3
 
     print(bundesliga)
-    print(info)
-    print(vereine)
+    #print(info)
+    #print(vereine)
 
     '''
     G = nx.Graph()
