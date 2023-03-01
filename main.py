@@ -3,6 +3,9 @@ import networkx as nx
 import database as db
 import example_read_db
 import graph
+import Bundesliga as b
+import Vereine as V
+
 from networkx.algorithms.community.centrality import girvan_newman
 
 import requests
@@ -60,8 +63,30 @@ def main():
             fp.write(str(data))
             break
 
+def neu():
+    player1 = b.Spieler('Spieler')
+    player2 = b.Spieler('Markus')
+    player3 = b.Spieler('Jordan')
 
+    player1.jahr[2012] = 'Ein Verein'
+    player2.jahr[2023] = 'SpVgg Lagerlechfeld'
+    player3.jahr[2023] = 'Hertha BSC Berlin'
+    player3.jahr[2022] = 'VFL Wolfsburg'
 
+    player1.jahr[1999] = b.Spieler.Vereine()
+    player1.jahr[1999] = ['FCB', 'FCA', 'SO4', 'BVB']
+
+    print(player1.name, player1.jahr)
+    print(player2.name, player2.jahr)
+    print(player3.name, player3.jahr)
+
+    for year, club in player1.jahr.items():
+
+        if type(club) != list:
+            print(year, ':', club)
+        else:
+            for verein in player1.jahr[year]:
+                print(year, ':', verein)
 
 
 # Press the green button to run the script.
@@ -72,3 +97,4 @@ if __name__ == '__main__':
     #graph.createnodes()
     #test()
     example_read_db.main()
+    #neu()

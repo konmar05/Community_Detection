@@ -1,5 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+from Bundesliga import *
+from Vereine import *
 
 fp = open('test_database.txt', 'r')
 
@@ -22,51 +24,21 @@ def lines_as_lists(filepointer):
 
 
 def main():
-    # print(print_lines_as_list(fp))
-
-    lines = lines_as_lists(fp)
-    first_line = lines[0]
-
-    print(lines[0])
-    for i in range(0, len(first_line)):
-        print(i, ' : ', first_line[i])
-
-    length = int(len(first_line) / 3)
 
     bundesliga = {}
-    info = {}
-    vereine = set()
+    graph_bundesliga = nx.Graph()
+    counter = 1
 
-    name = 0
-    akt_verein = 1
-    vereinsname = 2
-    von = 3
-    bis = 4
+    lines = lines_as_lists(fp)  # getting lines as a list, each line is an own list
 
+    for line in lines:
+        bundesliga[line[0]] = Vereine(line)
 
-    for i in range(0, length):
-        bundesliga[first_line[name]] = info
-        if (first_line[von] == first_line[bis]):
-            info[first_line[von]] = first_line[vereinsname]
-        else:
-            for k in range(first_line[von], first_line[bis]):
-                info[k] = first_line[vereinsname]
+    for player, clubs in bundesliga.items():
+        print(player, clubs)
+        graph_bundesliga.add_node(counter, name=player)
+        counter = counter+1
 
-        vereinsname = vereinsname+3
-        von = von+3
-        bis = bis+3
-        if (bis >= len(first_line)):
-            for index in range(first_line[von], 2023):
-                info[index] = first_line[vereinsname]
-            info[2023] = first_line[akt_verein]
-            break
-
-    print(bundesliga)
-    #print(info)
-    #print(vereine)
-
-    '''
-    G = nx.Graph()
-    nx.draw(G)
+    nx.draw(graph_bundesliga, with_labels=True, pos=nx.spring_layout(graph_bundesliga))
     plt.show()
-    '''
+
