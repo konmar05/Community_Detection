@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from Bundesliga import *
 from Vereine import *
 
-fp = open('test_database.txt', 'r')
+fp = open('bundesliga_database.txt', 'r')
 
 
 def lines_as_lists(filepointer):
@@ -24,7 +24,7 @@ def lines_as_lists(filepointer):
 
 
 def main():
-
+    plt.figure(figsize=(30, 30))
     bundesliga = {}
     graph_bundesliga = nx.Graph()
     counter = 1
@@ -35,10 +35,39 @@ def main():
         bundesliga[line[0]] = Vereine(line)
 
     for player, clubs in bundesliga.items():
-        print(player, clubs)
+        #print(player, clubs)
         graph_bundesliga.add_node(counter, name=player)
         counter = counter+1
+    '''
+    for spieler1, vereine1 in bundesliga.items():
+        for spieler2, vereine2 in bundesliga.items():
 
-    nx.draw(graph_bundesliga, with_labels=True, pos=nx.spring_layout(graph_bundesliga))
+            for jahr, verein in vereine1.vereine.items():
+    '''
+    knoten = graph_bundesliga.number_of_nodes()
+    for i in range(1, knoten+1):
+        for j in range(1, knoten+1):
+
+            if (graph_bundesliga._node[i] == graph_bundesliga._node[j]):
+                break
+            spieler1 = graph_bundesliga._node[i].get('name')
+            spieler2 = graph_bundesliga._node[j].get('name')
+            vereine1 = bundesliga[spieler1]
+            vereine2 = bundesliga[spieler2]
+            for jahr1, club1 in vereine1.vereine.items():
+                for jahr2, club2 in vereine2.vereine.items():
+                    if (jahr1 == jahr2):
+                        if (club1 == club2):
+                            graph_bundesliga.add_edge(i,j)
+
+
+
+
+
+    #print(bundesliga)
+
+    nx.draw(graph_bundesliga, with_labels=True, font_weight='normal', pos=nx.spring_layout(graph_bundesliga))
+    #plt.figure(1, figsize=(250, 250), dpi=10)
     plt.show()
+    #plt.savefig('biggraph.png', dpi=1000)
 

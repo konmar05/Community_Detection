@@ -12,6 +12,10 @@ class Vereine:
 
         for i in range(0, len(daten)):
 
+            if (len(daten) <= 2):
+                self.vereine[2023] = daten[aktueller_verein]
+                break
+
             if (daten[von] == daten[bis]):
                 self.vereine[daten[von]] = daten[vereinsname]
             else:
