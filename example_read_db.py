@@ -24,7 +24,7 @@ def lines_as_lists(filepointer):
 
 
 def main():
-    plt.figure(figsize=(30, 30))
+    plt.figure(figsize=(50, 30), dpi=100)
     bundesliga = {}
     graph_bundesliga = nx.Graph()
     counter = 1
@@ -58,9 +58,12 @@ def main():
                 for jahr2, club2 in vereine2.vereine.items():
                     if (jahr1 == jahr2):
                         if (club1 == club2):
-                            graph_bundesliga.add_edge(i,j)
+                            if (graph_bundesliga.has_edge(i, j)):
+                                break
+                            else:
+                                graph_bundesliga.add_edge(i, j, color='')
 
-
+    print(graph_bundesliga.has_edge(47, 81))
 
 
 
