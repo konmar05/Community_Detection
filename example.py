@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import community
 import colors
 
 from networkx.algorithms.community.centrality import girvan_newman
@@ -7,7 +8,7 @@ from networkx.algorithms.community.label_propagation import asyn_lpa_communities
 from networkx.algorithms.community.asyn_fluid import asyn_fluidc
 
 
-def main():
+def one():
 
     plt.figure(figsize=(50, 30))
     bundesliga = nx.Graph()
@@ -122,3 +123,30 @@ def main():
 
     nx.draw(bundesliga, pos=nx.spring_layout(bundesliga), node_color=color_map, with_labels=True)
     plt.show()
+
+
+def two():
+    # Erstellen eines Graphen
+    graph_kclub = nx.karate_club_graph()
+
+    # Ausführen der Community-Detektion
+    partition = community.best_partition(graph_kclub)
+
+    # Definieren der geographischen Koordinaten jedes Knotens basierend auf der Community-Zugehörigkeit
+    pos_communities = {}
+    for node, community_id in partition.items():
+        if community_id not in pos_communities:
+            pos_communities[community_id] = {}
+        pos_communities[community_id][node] = (community_id, node)
+
+    # Zeichnen des Graphen mit den Koordinaten
+    pos = {}
+    for community_id, nodes in pos_communities.items():
+        subgraph = graph_kclub.subgraph(nodes)
+        pos.update(nx.spring_layout(subgraph, k=0.5, center=(community_id, 0)))
+
+    nx.draw(graph_kclub, pos)
+
+    # Anzeigen des Graphen
+    plt.show()
+

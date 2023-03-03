@@ -99,5 +99,23 @@ def main():
         elif player in communities[32]:
             color_map.append(c.MediumPurple)
 
+    # TODO: write foo() for update positions of nodes according to communities
+    '''
+    # update positions according to communities
+    pos_communities = {}
+    for node, community_id in ergebnis.items():
+        if community_id not in pos_communities:
+            pos_communities[community_id] = {}
+        pos_communities[community_id][node] = (community_id, node)
+
+    # draw graph with updated positions
+    pos = {}
+    for community_id, nodes in pos_communities.items():
+        subgraph = graph_bundesliga.subgraph(nodes)
+        pos.update(nx.spring_layout(subgraph, k=0.5, center=(community_id, 0)))
+
+    #nx.draw(graph_bundesliga, pos, node_color=color_map, with_labels=True)
+    '''
+
     nx.draw(graph_bundesliga, with_labels=True, node_color=color_map, pos=nx.spring_layout(graph_bundesliga))
     plt.show()
