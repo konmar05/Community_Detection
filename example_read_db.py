@@ -1,9 +1,8 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from Bundesliga import *
 from Vereine import *
 
-fp = open('bundesliga_database.txt', 'r')
+fp = open('bundesliga_database_complete.txt', 'r')
 
 
 def lines_as_lists(filepointer):
@@ -24,27 +23,25 @@ def lines_as_lists(filepointer):
 
 
 def main():
-    plt.figure(figsize=(50, 30), dpi=100)
+    plt.figure(figsize=(50, 30))
     bundesliga = {}
     graph_bundesliga = nx.Graph()
     counter = 1
 
     lines = lines_as_lists(fp)  # getting lines as a list, each line is an own list
 
+    # create dict-Vereien for each line: turn in foo() -> param: (list[list1, list2, ...])
     for line in lines:
-        bundesliga[line[0]] = Vereine(line)
+        bundesliga[line[0]] = Vereine(line)  # usage for class 'Vereine'
 
+    # add nodes turn in foo() -> param: (dict, graph)
     for player, clubs in bundesliga.items():
-        #print(player, clubs)
         graph_bundesliga.add_node(counter, name=player)
         counter = counter+1
-    '''
-    for spieler1, vereine1 in bundesliga.items():
-        for spieler2, vereine2 in bundesliga.items():
 
-            for jahr, verein in vereine1.vereine.items():
-    '''
     knoten = graph_bundesliga.number_of_nodes()
+
+    # add edges: turn in foo() -> param: (graph, Anzahl(knoten))
     for i in range(1, knoten+1):
         for j in range(1, knoten+1):
 
@@ -61,9 +58,8 @@ def main():
                             if (graph_bundesliga.has_edge(i, j)):
                                 break
                             else:
-                                graph_bundesliga.add_edge(i, j, color='')
+                                graph_bundesliga.add_edge(i, j)
 
-    print(graph_bundesliga.has_edge(47, 81))
 
 
 

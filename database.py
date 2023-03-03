@@ -1,30 +1,30 @@
 import requests
 from bs4 import BeautifulSoup
 
-def getData():
+'''
+@description: reads data from html-paragraph and writes it in a txt-file
+@parameter: file to write data (dont need to be a string)
+'''
 
-    db = open("database.txt", "a")
+
+def write_data_to_file(file):
+
+    filepointer = open(str(file), "a")
 
     links = set()
     result = requests.get("https://www.bundesliga.com/en/bundesliga/player")
     soup = BeautifulSoup(result.content, "html.parser")
     for a in soup.find_all('a', href=True):
-       # print("Found the URL:", a['href'])
        if "player" in a['href']:
            links.add(a['href'])
-    print(links)
-    # db.write(str(links))
 
     for link in links:
-        db.write("\n")
-        print(link)
-        db.write(link)
+        filepointer.write("\n")
+        filepointer.write(link)
         result = requests.get("https://www.bundesliga.com" + link)
         soup = BeautifulSoup(result.content, "html.parser")
         for entry in soup.find_all("p", class_="vitaparagraph ng-star-inserted"):
             for part in entry.text.split("for "):
-                # print(part)
                 if "from" in part:
-                    print(part.split(" from "))
-                    db.write(str(part.split(" from ")))
+                    filepointer.write(str(part.split(" from ")))
             break

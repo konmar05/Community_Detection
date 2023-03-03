@@ -1,3 +1,0 @@
-1, name='Reece Oxford', club='FC Augsburg', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='FC Augsburg'
-2, name='Jordan', club='1. FC Union Berlin', y2019='Stade Rennais FC', y2020='Berner SC Young Boys', y2021='Berner SC Young Boys', y2022='Berner SC Young Boys'
-3, name= 'Peter Pekarik', club='Hertha Berlin', 
