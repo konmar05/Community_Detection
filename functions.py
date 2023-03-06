@@ -1,6 +1,7 @@
 from Vereine import *
 import colors as c
-import random
+import numpy as np
+import networkx as nx
 
 
 '''
@@ -72,7 +73,7 @@ def add_edges_to_nodes(graph, dictionary):
 
 '''
 @description: coloring nodes according to communities
-@:parameter:graph, list_communities
+@:parameter:graph, list_communities liste[set{}, set{}, ...]
 @return: color_map[] for use in nx.draw()
 '''
 def color_nodes(graph, list_communities):
@@ -151,66 +152,110 @@ def color_nodes(graph, list_communities):
     return color_map
 
 
-# TODO: write foo() for update positions of nodes according to communities
-# aufteilen des Zeichenbereichs in 60*60 Quadrate -> 10 Steps -> Zeichenbereich komplett = 600*600
+'''
+@description: implementing the Random Walk Detection Algorithm
+@parameter: graph, start_node, steps
+@return: dict = {visits:[node1, ...], ...}  # dict = {node:visits}
+'''
+def random_walk(graph, start_node, number_of_steps):
+    visit_counts = {}
+    current_node = start_node
+    for i in range(number_of_steps):
+        neighbors = list(graph.neighbors(current_node))
+        if len(neighbors) == 0:
+            current_node = start_node
+        else:
+            current_node = np.random.choice(neighbors)
+        if current_node not in visit_counts:
+            visit_counts[current_node] = 1
+        else:
+            visit_counts[current_node] += 1
+
+    # result for return
+    communities = {}
+    for node, count in visit_counts.items():
+        if count not in communities:
+            communities[count] = [node]
+        else:
+            communities[count].append(node)
+
+    return communities  # visit_counts
+
 
 '''
-@description: creates a random list
-@parameter: length must be 100 or 101
-@return: returns the creates list with random values from 0 to 100 with no duplicates
+@description: creates a small graph with 35 players
+@paramoter: none
+@return: new instance from class Graph in networkx, fully implemented with nodes an edges
 '''
-def unique_random_list(length):
-    result = []
-    while len(result) < length:
-        num = random.randint(0, 100)
-        if num not in result:
-            result.append(num)
-    return result
+def bundesliga_small():
+    bundesliga = nx.Graph()
 
-'''
-@description: creates N unique positions-set(x,y)'s in given sector
-@parameter: number_positions, sector
-@return: returns a list of positions-set()'s
-'''
-def generate_unique_positions(number_positions, sector):
-    positions = set()
+    bundesliga.add_node(1, name='Reece Oxford', club='FC Augsburg', y2013='West Ham United FC', y2014='West Ham United FC', y2015='West Ham United FC', y2016='West Ham United FC', y2017='Borussia Mönchengladbach', y2018='West Ham United FC', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='FC Augsburg')
+    bundesliga.add_node(2, name='Thomas Meunier', club='Borussia Dortmund',y2013='Club Brügge',y2014='Club Brügge',y2015='Club Brügge',y2016='Paris Saint-Germain FC',y2017='Paris Saint-Germain FC',y2018='Paris Saint-Germain FC',y2019='Paris Saint-Germain FC',y2020='Borussia Dortmund',y2021='Borussia Dortmund',y2022='Borussia Dortmund')
+    bundesliga.add_node(3, name='Yann Sommer', club='FC Bayern München',y2013='FC Basel',y2014='Borussia Mönchengladbach',y2015='Borussia Mönchengladbach',y2016='Borussia Mönchengladbach',y2017='Borussia Mönchengladbach',y2018='Borussia Mönchengladbach',y2019='Borussia Mönchengladbach',y2020='Borussia Mönchengladbach',y2021='Borussia Mönchengladbach',y2022 ='Borussia Mönchengladbach')
+    bundesliga.add_node(4, name='Johannes Schenk', club='FC Bayern München')
+    bundesliga.add_node(5, name='Kelvin Yeboah', club='FC Augsburg',y2017='AC Gozzano',y2018='WSG Wattens',y2019='WSG Swarovski Tirol',y2020='WSG Swarovski Tirol',y2021='SK Puntigamer Sturm Graz',y2022='Genua CFC 1893')
+    bundesliga.add_node(6, name='Lars Stindl', club='Borussia Mönchengladbach',y2013='Hannover 96',y2014='Hannover 96',y2015='Borussia Mönchengladbach',y2016='Borussia Mönchengladbach',y2017='Borussia Mönchengladbach',y2018='Borussia Mönchengladbach',y2019='Borussia Mönchengladbach',y2020='Borussia Mönchengladbach',y2021='Borussia Mönchengladbach',y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(7, name='Sadio Mané', club='FC Bayern München', y2013='FC Red Bull Salzburg', y2014='Southampton FC', y2015='Southampton FC', y2016='Liverpool FC', y2017='Liverpool FC', y2018='Liverpool FC', y2019='Liverpool FC', y2020='Liverpool FC', y2021='Liverpool FC', y2022='FC Bayern München')
+    bundesliga.add_node(8, name='Josip Stanišić', club='FC Bayern München')
+    bundesliga.add_node(9, name='Irvin Cardona', club='FC Augsburg', y2013='AS Monaco', y2014='AS Monaco', y2015='AS Monaco', y2016='AS Monaco', y2017='Cercle Brügge KSV', y2018='Cercle Brügge KSV', y2019='Stade Brestois', y2020='Stade Brestois', y2021='Stade Brestois', y2022='Stade Brestois')
+    bundesliga.add_node(10, name='Marcus Thuram', club='Borussia Mönchengladbach', y2013='FC Sochaux', y2014='FC Sochaux', y2015='FC Sochaux', y2016='FC Sochaux', y2017='En Avant de Guingamp', y2018='En Avant de Guingamp', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(11, name='Florian Müller', club='VfB Stuttgart', y2013='1. FSV Mainz 05', y2014='1. FSV Mainz 05', y2015='1. FSV Mainz 05', y2016='1. FSV Mainz 05', y2017='1. FSV Mainz 05', y2018='1. FSV Mainz 05', y2019='1. FSV Mainz 05', y2020='1. FSV Mainz 05', y2021='VfB Stuttgart', y2022='VfB Stuttgart')
+    bundesliga.add_node(12, name='Iago', club='FC Augsburg', y2013='SC Internacional', y2014='SC Internacional', y2015='SC Internacional', y2016='SC Internacional', y2017='SC Internacional', y2018='SC Internacional', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='FC Augsburg')
+    bundesliga.add_node(13, name='Nico Elvedi', club='Borussia Mönchengladbach', y2013='FC Zürich', y2014='FC Zürich', y2015='Borussia Mönchengladbach', y2016='Borussia Mönchengladbach', y2017='Borussia Mönchengladbach', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(14, name='Lucas Hernández', club='FC Bayern München', y2013='Atletico Madrid', y2014='Atletico Madrid', y2015='Atletico Madrid', y2016='Atletico Madrid', y2017='Atletico Madrid', y2018='Atletico Madrid', y2019='FC Bayern München', y2020='FC Bayern München', y2021='FC Bayern München', y2022='FC Bayern München')
+    bundesliga.add_node(15, name='Marius Wolf', club='Borussia Dortmund', y2013='TSV 1860 München', y2014='TSV 1860 München', y2015='TSV 1860 München', y2016='Hannover 96', y2017='Eintracht Frankfurt', y2018='Borussia Dortmund', y2019='Hertha BSC Berlin', y2020='Borussia Dortmund', y2021='1. FC Köln', y2022='Borussia Dortmund')
+    bundesliga.add_node(16, name='Konstantinos Mavropanos', club='VfB Stuttgart', y2013='Apollon Smyrnis', y2014='Apollon Smyrnis', y2015='Apollon Smyrnis', y2016='PAS Giannina FC', y2017='PAS Giannina FC', y2018='Arsenal FC', y2019='Arsenal FC', y2020='1. FC Nürnberg', y2021='VfB Stuttgart', y2022='VfB Stuttgart')
+    bundesliga.add_node(17, name='Joshua Kimmich', club='FC Bayern München', y2013='RB Leipzig', y2014='RB Leipzig', y2015='FC Bayern München', y2016='FC Bayern München', y2017='FC Bayern München', y2018='FC Bayern München', y2019='FC Bayern München', y2020='FC Bayern München', y2021='FC Bayern München', y2022='FC Bayern München')
+    bundesliga.add_node(18, name='Benjamin Leneis', club='FC Augsburg', y2014='1. FC Nürnberg', y2015='FC Augsburg', y2016='FC Augsburg', y2017='FC Augsburg', y2018='FC Augsburg', y2019='FC Augsburg', y2020='FC Augsburg', y2021='1. FC Magdeburg', y2022='FC Augsburg')
+    bundesliga.add_node(19, name='Conor Noß', club='Borussia Mönchengladbach', y2013='Borussia Mönchengladbach', y2014='Borussia Mönchengladbach', y2015='Borussia Mönchengladbach', y2016='Borussia Mönchengladbach', y2017='Borussia Mönchengladbach', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(20, name='Mërgim Berisha ', club='FC Augsburg',y2016='FC Liefering', y2017='FC Red Bull Salzburg', y2018='1. FC Magdeburg', y2019='FC Red Bull Salzburg', y2020='FC Red Bull Salzburg', y2021='Fenerbahce SK Istanbul', y2022='FC Augsburg')
+    bundesliga.add_node(21, name='Jonas Hofmann', club='Borussia Mönchengladbach', y2013='Borussia Dortmund', y2014='1. FSV Mainz 05', y2015='Borussia Dortmund', y2016='Borussia Mönchengladbach', y2017='Borussia Mönchengladbach', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(22, name='Ko Itakura', club='Borussia Mönchengladbach', y2013='Kawasaki Frontale', y2014='Kawasaki Frontale', y2015='Kawasaki Frontale', y2016='Kawasaki Frontale', y2017='Kawasaki Frontale', y2018='Vegalta Sendai', y2019='Kawasaki Frontale', y2020='Manchester City FC', y2021='Manchester City FC', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(23, name='Daniel Klein', club='FC Augsburg', y2013='FC Astoria Walldorf', y2014='TSG 1899 Hoffenheim', y2015='TSG 1899 Hoffenheim', y2016='TSG 1899 Hoffenheim', y2017='TSG 1899 Hoffenheim', y2018='TSG 1899 Hoffenheim', y2019='TSG 1899 Hoffenheim', y2020='TSG 1899 Hoffenheim', y2021='FC Augsburg', y2022='FC Augsburg')
+    bundesliga.add_node(24, name='Alassane Pléa', club='Borussia Mönchengladbach', y2013='Olympique Lyonnais', y2014='AJ Auxerre' , y2015='OGC Nice', y2016='OGC Nice', y2017='OGC Nice', y2018='Borussia Mönchengladbach', y2019='Borussia Mönchengladbach', y2020='Borussia Mönchengladbach', y2021='Borussia Mönchengladbach', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(25, name='Waldemar Anton', club='VfB Stuttgart', y2013='Hannover 96', y2014='Hannover 96', y2015='Hannover 96', y2016='Hannover 96', y2017='Hannover 96', y2018='Hannover 96', y2019='Hannover 96', y2020='VfB Stuttgart', y2021='VfB Stuttgart', y2022='VfB Stuttgart')
+    bundesliga.add_node(26, name='Antonis Aidonis', club='VfB Stuttgart', y2013='TSG 1899 Hoffenheim', y2014='TSG 1899 Hoffenheim', y2015='TSG 1899 Hoffenheim', y2016='TSG 1899 Hoffenheim', y2017='TSG 1899 Hoffenheim', y2018='VfB Stuttgart', y2019='VfB Stuttgart', y2020='VfB Stuttgart', y2021='SG Dynamo Dresden', y2022='VfB Stuttgart')
+    bundesliga.add_node(27, name='Sven Ulreich', club='FC Bayern München', y2013='VfB Stuttgart', y2014='VfB Stuttgart', y2015='FC Bayern München', y2016='FC Bayern München', y2017='FC Bayern München', y2018='FC Bayern München', y2019='FC Bayern München', y2020='Hamburger SV', y2021='FC Bayern München', y2022='FC Bayern München')
+    bundesliga.add_node(28, name='Semir Telalovic', club='Borussia Mönchengladbach', y2017='SSV Ehingen-Süd', y2018='SSV Ehingen-Süd', y2019='SSV Ehingen-Süd', y2020='SSV Ehingen-Süd', y2021='FV Illertissen', y2022='Borussia Mönchengladbach')
+    bundesliga.add_node(29, name='Alexander Meyer', club='Borussia Dortmund', y2013='TSV Havelse', y2014='TSV Havelse', y2015='TSV Havelse', y2016='FC Energie Cottbus', y2017='VfB Stuttgart', y2018='VfB Stuttgart', y2019='SSV Jahn Regensburg', y2020='SSV Jahn Regensburg', y2021='SSV Jahn Regensburg', y2022='Borussia Dortmund')
+    bundesliga.add_node(30, name='Atakan Karazor', club='VfB Stuttgart', y2013='VfL Bochum', y2014='VfL Bochum', y2015='Borussia Dortmund', y2016='Borussia Dortmund', y2017='Holstein Kiel', y2018='Holstein Kiel', y2019='VfB Stuttgart', y2020='VfB Stuttgart', y2021='VfB Stuttgart', y2022='VfB Stuttgart')
+    bundesliga.add_node(31, name='Felix Uduokhai', club='FC Augsburg', y2013='TSV 1860 München', y2014='TSV 1860 München', y2015='TSV 1860 München', y2016='TSV 1860 München', y2017='TSV 1860 München', y2018='TSV 1860 München', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='FC Augsburg')
+    bundesliga.add_node(32, name='Gabriel Marušić', club='FC Bayern München')
+    bundesliga.add_node(33, name='André Hahn', club='FC Augsburg', y2013='FC Augsburg', y2014='Borussia Mönchengladbach', y2015='Borussia Mönchengladbach', y2016='Borussia Mönchengladbach', y2017='Hamburger SV', y2018='Hamburger SV', y2019='FC Augsburg', y2020='FC Augsburg', y2021='FC Augsburg', y2022='FC Augsburg')
+    bundesliga.add_node(34, name='Matthijs de Ligt', club='FC Bayern München', y2013='Ajax Amsterdam', y2014='Ajax Amsterdam', y2015='Ajax Amsterdam', y2016='Ajax Amsterdam', y2017='Ajax Amsterdam', y2018='Ajax Amsterdam', y2019='Juventus FC Turin', y2020='Juventus FC Turin', y2021='Juventus FC Turin', y2022='FC Bayern München')
+    bundesliga.add_node(35, name='Hiroki Ito', club='VfB Stuttgart', y2015='Jubilo Iwata', y2016='Jubilo Iwata', y2017='Jubilo Iwata', y2018='Jubilo Iwata', y2019='Nagoya Grampus Eight', y2020='Jubilo Iwata', y2021= 'VfB Stuttgart', y2022= 'VfB Stuttgart')
 
-    return list(positions)
+    numbernodes = bundesliga.number_of_nodes()
+    #print('Knoten im Graph: ', numbernodes)
 
-'''
-@description: updates the positions-dict {node1:set(x,y), node2:set(x,y), ...}
-@parameter: list_community_nodes
-@return: positions_dict -> dictionary with nodes as keys and positions as values, positions as set(x,y)
-'''
-def update_positions(list_community_nodes):
-    positions_dict = {}
+    for i in range(1, numbernodes+1):
+        for j in range(1, numbernodes+1):
 
-    for nodelist in list_community_nodes:
-        a=1
+            if (bundesliga._node[i] == bundesliga._node[j]):
+                break
 
+            if (bundesliga._node[i].get('club') == bundesliga._node[j].get('club')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2013') == bundesliga._node[j].get('y2013')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2014') == bundesliga._node[j].get('y2014')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2015') == bundesliga._node[j].get('y2015')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2016') == bundesliga._node[j].get('y2016')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2017') == bundesliga._node[j].get('y2017')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2018') == bundesliga._node[j].get('y2018')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2019') == bundesliga._node[j].get('y2019')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2020') == bundesliga._node[j].get('y2020')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2021') == bundesliga._node[j].get('y2021')):
+                bundesliga.add_edge(i, j)
+            if (bundesliga._node[i].get('y2022') == bundesliga._node[j].get('y2022')):
+                bundesliga.add_edge(i, j)
 
-    return positions_dict
-
-
-###sth
-###
-###
-
-'''
-@description:
-@parameter:
-'''
-def generate_positions(num_positions, x_range, y_range):
-        """
-        Generate num_positions 2D positions within the specified x and y ranges.
-        Each position is randomly assigned to a group (integer).
-        Returns a list of tuples, where each tuple contains the x and y coordinates
-        of a position, as well as its assigned group.
-        """
-        positions_set = set()  # Set to store unique positions
-        while len(positions_set) < num_positions:
-            x = random.uniform(x_range[0], x_range[1])
-            y = random.uniform(y_range[0], y_range[1])
-            #group = random.randint(1, 5)  # Generate a random integer between 1 and 5
-            positions_set.add((x, y))  # Add the unique position to set
-        return list(positions_set)
+    return bundesliga
